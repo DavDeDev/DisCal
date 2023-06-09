@@ -7,12 +7,12 @@ require('dotenv').config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 
-// Log in to Discord with your client's token
-client.login(process.env.DISCORD_TOKEN);
+
 
 
 client.commands = new Collection();
 
+// Organaze command files into subfolders and load them
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -30,3 +30,20 @@ for (const folder of commandFolders) {
 		}
 	}
 }
+
+// Organize event files into subfolders and load them
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
+
+// Log in to Discord with your client's token
+client.login(process.env.DISCORD_TOKEN);
