@@ -41,5 +41,9 @@ for (const file of eventFiles) {
 	}
 }
 
+// Organize cooldowns into a collection
+client.cooldowns = new Collection(); // <key: command name, value: Collection<key: UserID, value: lastTimeStamp>>
+
+
 // Log in to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
