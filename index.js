@@ -6,9 +6,12 @@ require('dotenv').config();
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+// Organize cooldowns into a collection
+client.cooldowns = new Collection(); 
+// <key: command name, value: Collection<key: UserID, value: lastUsageTimeStamp>>
 client.commands = new Collection();
 
-// Organaze command files into subfolders and load them
+// Organize command files into subfolders and load them
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -35,14 +38,13 @@ for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
 	if (event.once) {
+		console.log(`[EVENT] Loaded ONCE event ${event.name}`)
 		client.once(event.name, (...args) => event.execute(...args));
 	} else {
+		console.log(`[EVENT] Loaded event ${event.name}`)
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
-
-// Organize cooldowns into a collection
-client.cooldowns = new Collection(); // <key: command name, value: Collection<key: UserID, value: lastTimeStamp>>
 
 
 // Log in to Discord with your client's token
