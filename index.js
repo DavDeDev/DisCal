@@ -6,10 +6,6 @@ require('dotenv').config();
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-
-
-
-
 client.commands = new Collection();
 
 // Organaze command files into subfolders and load them
