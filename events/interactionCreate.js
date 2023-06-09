@@ -1,5 +1,5 @@
 const { Events } = require('discord.js');
-const { cooldown } = require('../commands/fun/ping');
+const { Collection } = require('discord.js');
 
 // When client send a message, run this code
 module.exports = {
