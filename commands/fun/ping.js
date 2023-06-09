@@ -7,6 +7,7 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
-		await interaction.reply('Pong!');
+		// ephemeral : true means that only the user who used the command will see the reply
+		await interaction.reply({ content: 'Secret Pong!', ephemeral: true }); 
 	},
 };
