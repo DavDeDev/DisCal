@@ -37,6 +37,8 @@ module.exports = {
 				return interaction.reply({ content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`, ephemeral: true });
 			}
 		}
+		
+		
 
 		// We update the last usage timestamp for the user
 		timestamps.set(interaction.user.id, now);
