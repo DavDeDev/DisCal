@@ -7,10 +7,14 @@ module.exports = {
     .setName("echo")
     .setDescription("Replies with your input!")
     // Consider Options as arguments for a function
-    .addStringOption((option) =>
-      option.setName("input").setDescription("The input to echo back").setRequired(true) // Makes the option required
+    .addStringOption(
+      (option) =>
+        option
+          .setName("input")
+          .setDescription("The input to echo back")
+          .setRequired(true) // Makes the option required
     )
-    
+
     .addChannelOption((option) =>
       option.setName("channel").setDescription("The channel to echo in")
     )
