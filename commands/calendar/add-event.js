@@ -1,20 +1,20 @@
-const { SlashCommandBuilder } = require("discord.js");
-const wait = require("node:timers/promises").setTimeout;
+const { SlashCommandBuilder } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
-  category: "calendar",
+  category: 'calendar',
   data: new SlashCommandBuilder()
-    .setName("add-event")
-    .setDescription("Adds an event to the calendar.")
+    .setName('add-event')
+    .setDescription('Adds an event to the calendar.')
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("conference")
-        .setDescription("Add conference to calendar"),
+        .setName('conference')
+        .setDescription('Add conference to calendar'),
     )
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("hackathon")
-        .setDescription("Add hackathon to calendar"),
+        .setName('hackathon')
+        .setDescription('Add hackathon to calendar'),
     ),
   async execute(interaction) {
     // We defer the interaction to ensure the bot doesn't time out
