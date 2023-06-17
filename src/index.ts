@@ -1,29 +1,18 @@
+import googleAuth from './googleAuth';
 import { calendar_v3, google } from 'googleapis';
-// JWT is more specific then GoogleAuth => for Service Accounts
-import { JWT } from 'google-auth-library';
-// Load client secrets from a local file.
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-import credentials from './credentials.json';
-
+// Make an API request (list the user's upcoming events)
 
 async function main() {
     // Load the service account credentials
 
-    // Create a new JWT client using the credentials
-    const client : JWT = new JWT({
-        email: credentials.client_email,
-        key: credentials.private_key,
-        scopes: ['https://www.googleapis.com/auth/calendar'],
-    });
 
-    // Authenticate the client
-    await client.authorize();
 
     // Create a new instance of the Google Calendar API
-    const calendar : calendar_v3.Calendar = google.calendar({ version: 'v3', auth : client });
+    const calendar: calendar_v3.Calendar = await googleAuth().catch((error) => {
+        console.error('Error:', error);
+        return error;
+    });
 
     // Make an API request (list the user's upcoming events)
     const response = await calendar.events.list({
@@ -35,13 +24,13 @@ async function main() {
     });
 
     // Log the upcoming events
-    const events : calendar_v3.Schema$Event[] | undefined = response.data.items;
+    const events: calendar_v3.Schema$Event[] | undefined = response.data.items;
     // Log the upcoming events
     if (events) {
         if (events.length) {
             console.log('Upcoming events:');
             events.forEach((event, index) => {
-                const start : string | null | undefined = event.start?.dateTime || event.start?.date;
+                const start: string | null | undefined = event.start?.dateTime || event.start?.date;
                 console.log(`${index + 1}. ${event.summary} (${start})`);
             });
         } else {
