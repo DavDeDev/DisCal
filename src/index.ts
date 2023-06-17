@@ -1,13 +1,13 @@
-import googleAuth from './googleAuth';
+import googleAuth from './calendar';
 import dsAuth from './dsAuth';
 import { calendar_v3 } from 'googleapis';
-import { Client } from 'discord.js';
+import { CustomClient } from './interfaces/CustomClient';
 
 // Make an API request (list the user's upcoming events)
 
 async function main() {
     // Load the service account credentials
-
+    console.log(CustomClient);
 
 
     // Create a new instance of the Google Calendar API
@@ -16,8 +16,7 @@ async function main() {
         return error;
     });
 
-    const client : Client = await dsAuth();
-    
+    const client : CustomClient = await dsAuth(calendar);
 }
 
 main().catch((error) => {

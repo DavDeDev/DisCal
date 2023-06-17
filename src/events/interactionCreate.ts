@@ -20,7 +20,7 @@ module.exports = {
             cooldowns.set(command.data.name, new Collection());
         }
 
-        const now = Date.now();
+        const now : number = Date.now();
         // We get the collection of <key: UserID, value: timeStamp> for a specific command
         const timestamps = cooldowns.get(command.data.name);
         const defaultCooldownDuration = 3;
