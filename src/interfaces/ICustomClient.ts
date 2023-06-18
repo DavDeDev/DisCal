@@ -8,4 +8,3 @@ export interface ICustomClient extends Client {
   countdowns: Collection<ICommand['data']['name'], Collection<ChatInputCommandInteraction['user']['id'], number>>;
   calendar: calendar_v3.Calendar;
 }
-

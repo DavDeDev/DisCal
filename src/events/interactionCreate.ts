@@ -1,5 +1,5 @@
 import { Events, Collection, CommandInteraction, InteractionResponse } from 'discord.js';
-import { CustomClient } from '../interfaces/CustomClient';
+import { CustomClient } from '../interfaces/ICustomClient';
 
 module.exports = {
     name: Events.InteractionCreate as const,
@@ -7,7 +7,7 @@ module.exports = {
         if (!interaction.isChatInputCommand()) return;
         const client = interaction.client as CustomClient;
 
-        const command:undefined = client.commands.get(interaction.commandName);
+        const command = client.commands.get(interaction.commandName);
 
         if (!command) {
             console.error(`No command matching ${interaction.commandName} was found.`);

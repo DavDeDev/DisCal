@@ -1,9 +1,11 @@
 import googleAuth from './calendar';
-import dsAuth from './createBot';
 import { calendar_v3 } from 'googleapis';
-import { CustomClient } from './interfaces/CustomClient';
+import CustomClient from './classes/CustomClient';
+import dotenv from 'dotenv';
+import path from 'path';
 
 // Make an API request (list the user's upcoming events)
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 async function main() {
     // Create a new instance of the Google Calendar API
@@ -12,7 +14,9 @@ async function main() {
         return error;
     });
 
-    const client : CustomClient = await dsAuth(calendar);
+    const client: CustomClient = new CustomClient(1, undefined, undefined, calendar);
+
+    await client.login(process.env.DISCORD_TOKEN).then(() => { console.log('logged'); });
 }
 
 main().catch((error) => {
