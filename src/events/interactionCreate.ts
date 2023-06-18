@@ -1,11 +1,13 @@
-import { Events, Collection } from 'discord.js';
+import { Events, Collection, CommandInteraction, InteractionResponse } from 'discord.js';
+import { CustomClient } from '../interfaces/CustomClient';
 
 module.exports = {
-    name: Events.InteractionCreate,
-    async execute(interaction : any) {
+    name: Events.InteractionCreate as const,
+    async execute(interaction: CommandInteraction): Promise<void> {
         if (!interaction.isChatInputCommand()) return;
+        const client = interaction.client as CustomClient;
 
-        const command = interaction.client.commands.get(interaction.commandName);
+        const command:undefined = client.commands.get(interaction.commandName);
 
         if (!command) {
             console.error(`No command matching ${interaction.commandName} was found.`);
@@ -13,19 +15,19 @@ module.exports = {
         }
 
         // Get the collection of cooldowns from the client
-        const { cooldowns } = interaction.client;
+        const { cooldowns } = client;
 
         // Because we are using the name of the command as the key for the collection of cooldowns, we check if the command name exists in the collection. If it doesn't, we add it along with a new collection of timestamps.
         if (!cooldowns.has(command.data.name)) {
             cooldowns.set(command.data.name, new Collection());
         }
 
-        const now : number = Date.now();
+        const now: number = Date.now();
         // We get the collection of <key: UserID, value: timeStamp> for a specific command
         const timestamps = cooldowns.get(command.data.name);
         const defaultCooldownDuration = 3;
         // If the command doesn't have cooldown specified we use the default one
-        const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000; 
+        const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000;
         // Convert to milliseconds
 
         if (timestamps.has(interaction.user.id)) {
