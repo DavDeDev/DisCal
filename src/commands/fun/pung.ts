@@ -3,11 +3,11 @@ import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from 'dis
 
 
 export const pung: Command = new Command(
+    __dirname,
     new SlashCommandBuilder()
         .setName('pung')
         .setDescription('Replies with peng!'),
     async (interaction: ChatInputCommandInteraction<CacheType>) => {
         await interaction.reply('Peng!');
     },
-    __dirname,
 );

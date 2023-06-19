@@ -1,11 +1,12 @@
-import googleAuth from './calendar';
-import { calendar_v3 } from 'googleapis';
-import { CustomClient, Command } from 'classes';
-import dotenv from 'dotenv';
-import path from 'path';
-import { ready, interactionCreate } from '@/events';
 import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
+import { calendar_v3 } from 'googleapis';
+import dotenv from 'dotenv';
+import path from 'path';
+
+import googleAuth from './googleAuth';
+import { CustomClient, Command } from 'classes';
+import { ready, interactionCreate } from '@/events';
 import { ICommand } from 'interfaces';
 import * as commands from 'commands';
 
