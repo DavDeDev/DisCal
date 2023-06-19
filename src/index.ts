@@ -4,9 +4,11 @@ import CustomClient from 'classes/CustomClient';
 import dotenv from 'dotenv';
 import path from 'path';
 import { ready } from './events/ready';
-import { Events } from 'discord.js';
+import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
-
+import { ICommand } from 'interfaces';
+import * as commands from 'commands';
+import Command from './classes/Command';
 
 async function main() {
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -21,8 +23,18 @@ async function main() {
             throw new Error('Google Authentication failed' + error);
         });
 
+    // Create a collection of commands
+    const commandsCollection: Collection<string, ICommand> = new Collection();
+
+    for (const [name, command] of Object.entries(commands)) {
+        if (command instanceof Command) {
+            commandsCollection.set(command.data.name, command);
+        }
+    }
+
+    const countdowns: Collection<string, Collection<string, number>> = new Collection();
     // Add commands to the client
-    const client: CustomClient = new CustomClient(1, undefined, undefined, calendar);
+    const client: CustomClient = new CustomClient(1, commandsCollection, undefined, calendar);
 
     client.once(ready.name as Events.ClientReady, (...args) => ready.execute(...args));
 

@@ -1,3 +1,4 @@
 // fun/index.ts
 
-export { ping } from './ping';
+export * from './ping';
+export * from './pung';

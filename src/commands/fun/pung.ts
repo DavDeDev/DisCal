@@ -2,11 +2,11 @@ import Command from 'classes/Command';
 import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 
-export const ping: Command = new Command(
+export const pung: Command = new Command(
     new SlashCommandBuilder()
-        .setName('ping')
-        .setDescription('Replies with Pong!'),
+        .setName('pung')
+        .setDescription('Replies with peng!'),
     async (interaction: ChatInputCommandInteraction<CacheType>) => {
-        await interaction.reply('Pong!');
+        await interaction.reply('Peng!');
     },
 );
