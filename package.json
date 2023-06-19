@@ -8,7 +8,7 @@
     "lint": "eslint ./src/ --ext .ts",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy-commands": "npx ts-node -r tsconfig-paths/register ./src/deploy.ts"
   },
   "repository": {
     "type": "git",
