@@ -9,10 +9,10 @@ export default class Command implements ICommand {
   execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 
   constructor(
-    countdown = 10,
     // countdown is the number of seconds to wait before executing the command again
     data: SlashCommandBuilder,
     execute: (interaction: ChatInputCommandInteraction) => Promise<void>,
+    countdown = 10,
   ) {
     // category is always the name of the folder the command is in
     this.category = path.basename(path.resolve(__dirname, '../'));
