@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, Client, Collection } from 'discord.js';
 import { calendar_v3 } from 'googleapis';
-import { ICommand } from './ICommand';
+import { ICommand } from 'interfaces/ICommand';
 
 export interface ICustomClient extends Client {
   commands: Collection<ICommand['data']['name'], ICommand>;

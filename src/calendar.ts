@@ -1,4 +1,3 @@
-import { calendar_v3, google } from 'googleapis';
 // JWT is more specific then GoogleAuth => for Service Accounts
 import { JWT } from 'google-auth-library';
 // Load client secrets from a local file.

@@ -1,6 +1,6 @@
 import googleAuth from './calendar';
 import { calendar_v3 } from 'googleapis';
-import CustomClient from '@classes/CustomClient';
+import CustomClient from 'classes/CustomClient';
 import dotenv from 'dotenv';
 import path from 'path';
 import { ping } from './commands';
