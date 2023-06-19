@@ -12,10 +12,12 @@ export class Command implements ICommand {
     // countdown is the number of seconds to wait before executing the command again
     data: SlashCommandBuilder,
     execute: (interaction: ChatInputCommandInteraction) => Promise<void>,
+    category: string,
     countdown = 10,
   ) {
     // category is always the name of the folder the command is in
-    this.category = path.basename(path.resolve(__dirname, '../'));
+    this.category = path.basename(category);
+    console.log(this.category);
     this.countdown = countdown;
     this.data = data;
     this.execute = execute;

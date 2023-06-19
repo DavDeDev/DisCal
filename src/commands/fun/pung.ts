@@ -9,4 +9,5 @@ export const pung: Command = new Command(
     async (interaction: ChatInputCommandInteraction<CacheType>) => {
         await interaction.reply('Peng!');
     },
+    __dirname,
 );
