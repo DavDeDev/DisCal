@@ -15,8 +15,10 @@ export default async function googleAuth() {
     // Authenticate the client
     await client.authorize();
 
-    // Create a new instance of the Google Calendar API
-    const calendar: calendar_v3.Calendar = google.calendar({ version: 'v3', auth: client });
+    // // Create a new instance of the Google Calendar API
+    // const calendar: calendar_v3.Calendar = google.calendar({ version: 'v3', auth: client });
 
-    return calendar;
+    // return calendar;
+
+    return client;
 }

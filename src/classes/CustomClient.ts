@@ -1,5 +1,5 @@
 import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits } from 'discord.js';
-import { ICommand, ICustomClient } from '@/interfaces';
+import { ICommand, ICustomClient } from 'interfaces';
 import { calendar_v3 } from 'googleapis';
 
 export default class CustomClient extends Client implements ICustomClient {
