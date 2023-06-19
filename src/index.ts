@@ -3,12 +3,12 @@ import { calendar_v3 } from 'googleapis';
 import CustomClient from 'classes/CustomClient';
 import dotenv from 'dotenv';
 import path from 'path';
-import { ready } from './events/ready';
+import { ready } from 'events/ready';
 import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
 import { ICommand } from 'interfaces';
 import * as commands from 'commands';
-import Command from './classes/Command';
+import Command from 'classes/Command';
 
 async function main() {
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -30,6 +30,9 @@ async function main() {
         if (command instanceof Command) {
             commandsCollection.set(command.data.name, command);
         }
+        else {
+			console.error(`[WARNING] The command ${name} is not a valid Command`);
+		}
     }
 
     const countdowns: Collection<string, Collection<string, number>> = new Collection();
