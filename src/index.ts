@@ -3,9 +3,8 @@ import { calendar_v3 } from 'googleapis';
 import CustomClient from 'classes/CustomClient';
 import dotenv from 'dotenv';
 import path from 'path';
-import { ping } from './commands';
 import { ready } from './events/ready';
-import { ClientEvents, Events } from 'discord.js';
+import { Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
 
 
