@@ -2,7 +2,7 @@ import { ICommand } from 'interfaces';
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import path from 'path';
 
-export default class Command implements ICommand {
+export class Command implements ICommand {
   category: string;
   countdown: number;
   data: SlashCommandBuilder;

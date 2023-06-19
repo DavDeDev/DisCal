@@ -1,4 +1,4 @@
-import Command from 'classes/Command';
+import { Command } from 'classes';
 import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 

@@ -3,6 +3,7 @@ import { ICustomClient } from 'interfaces/ICustomClient';
 
 export default interface IEvent {
     name: string;
-    execute: (interaction: Interaction | ICustomClient) => Promise<void> | void;
+    // function to execute when the event is triggered
+    execute: (interaction:ICustomClient) => void;
     once?: boolean;
 }

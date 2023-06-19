@@ -1,20 +1,19 @@
 import googleAuth from './calendar';
 import { calendar_v3 } from 'googleapis';
-import CustomClient from 'classes/CustomClient';
+import { CustomClient, Command } from 'classes';
 import dotenv from 'dotenv';
 import path from 'path';
-import { ready } from 'events/ready';
+import { ready } from '@/events';
 import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
 import { ICommand } from 'interfaces';
 import * as commands from 'commands';
-import Command from 'classes/Command';
 
 async function main() {
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
     // Create a new instance of the Google Calendar API
-    const calendar: calendar_v3.Calendar | undefined = await googleAuth()
+    const calendar: calendar_v3.Calendar = await googleAuth()
         .then((auth: JWT) => {
             console.log('Google Authenticated');
             return new calendar_v3.Calendar({ auth });
@@ -31,8 +30,8 @@ async function main() {
             commandsCollection.set(command.data.name, command);
         }
         else {
-			console.error(`[WARNING] The command ${name} is not a valid Command`);
-		}
+            console.error(`[WARNING] The command ${name} is not a valid Command`);
+        }
     }
 
     const countdowns: Collection<string, Collection<string, number>> = new Collection();

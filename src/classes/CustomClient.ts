@@ -2,7 +2,7 @@ import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits } fr
 import { ICommand, ICustomClient } from 'interfaces';
 import { calendar_v3 } from 'googleapis';
 
-export default class CustomClient extends Client implements ICustomClient {
+export class CustomClient extends Client implements ICustomClient {
   commands: Collection<ICommand['data']['name'], ICommand>;
   countdowns: Collection<ICommand['data']['name'], Collection<ChatInputCommandInteraction['user']['id'], number>>;
   calendar: calendar_v3.Calendar;
