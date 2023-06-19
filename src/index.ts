@@ -3,7 +3,7 @@ import { calendar_v3 } from 'googleapis';
 import { CustomClient, Command } from 'classes';
 import dotenv from 'dotenv';
 import path from 'path';
-import { ready } from '@/events';
+import { ready, interactionCreate } from '@/events';
 import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
 import { ICommand } from 'interfaces';
@@ -22,6 +22,7 @@ async function main() {
             throw new Error('Google Authentication failed' + error);
         });
 
+    // #region Create a collection of commands
     // Create a collection of commands
     const commandsCollection: Collection<string, ICommand> = new Collection();
 
@@ -33,12 +34,15 @@ async function main() {
             console.error(`[WARNING] The command ${name} is not a valid Command`);
         }
     }
+    // #endregion
 
+    // Create a collection of countdowns
     const countdowns: Collection<string, Collection<string, number>> = new Collection();
     // Add commands to the client
-    const client: CustomClient = new CustomClient(1, commandsCollection, undefined, calendar);
+    const client: CustomClient = new CustomClient(1, commandsCollection, countdowns, calendar);
 
     client.once(ready.name as Events.ClientReady, (...args) => ready.execute(...args));
+    client.on(interactionCreate.name as Events.InteractionCreate, (...args) => interactionCreate.execute(...args));
 
 
     await client.login(process.env.DISCORD_TOKEN)

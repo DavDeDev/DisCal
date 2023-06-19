@@ -1,9 +1,8 @@
-import { ICustomClient } from 'interfaces/ICustomClient';
-
 export interface IEvent {
     name: string;
     // function to execute when the event is triggered
-    execute: (interaction:ICustomClient) => void;
+    // TODO: change the type of the parameter to the correct one
+    execute: (interaction : any) => void;
     once?: boolean;
 }
 

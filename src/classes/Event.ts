@@ -1,5 +1,5 @@
 import { ICustomClient } from 'interfaces';
-import { Client, Interaction } from 'discord.js';
+import { Client } from 'discord.js';
 import { IEvent } from 'interfaces';
 
 
