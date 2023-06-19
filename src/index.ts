@@ -13,6 +13,9 @@ async function main() {
         return error;
     });
 
+    // Add commands to the client
+    
+
     const client: CustomClient = new CustomClient(1, undefined, undefined, calendar);
 
     await client.login(process.env.DISCORD_TOKEN).then(() => { console.log('logged'); });
