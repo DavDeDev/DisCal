@@ -9,8 +9,8 @@ export default class Command implements ICommand {
   execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 
   constructor(
+    countdown = 10,
     // countdown is the number of seconds to wait before executing the command again
-    countdown = 4,
     data: SlashCommandBuilder,
     execute: (interaction: ChatInputCommandInteraction) => Promise<void>,
   ) {
