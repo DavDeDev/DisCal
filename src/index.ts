@@ -21,7 +21,7 @@ async function main() {
             return new calendar_v3.Calendar({ auth });
         })
         .catch((error: Error) => {
-            throw new Error('Google Authentication failed' + error);
+            throw new Error('❌ Google Authentication failed' + error);
         });
 
     // #region Create a collection of commands
@@ -33,7 +33,7 @@ async function main() {
             commandsCollection.set(command.data.name, command);
         }
         else {
-            console.warn(`[WARNING] The command ${name} is not a valid Command`);
+            console.warn(`🟡 The command ${name} is not a valid Command`);
         }
     }
     // #endregion
@@ -48,7 +48,7 @@ async function main() {
             console.log('🤖 Discord Authenticated');
         })
         .catch((error: Error) => {
-            throw new Error('Discord Authentication failed' + error);
+            throw new Error('❌ Discord Authentication failed' + error);
         });
 
     client.once(
