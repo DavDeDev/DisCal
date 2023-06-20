@@ -6,6 +6,9 @@ import { ICustomClient, IEvent } from '@/types';
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 export const ready: IEvent = {
     name: Events.ClientReady,
-    execute: (client: ICustomClient) => { console.log(`Logged in as ${client.user?.tag}!`); },
+    execute: (client: ICustomClient) => {
+        console.log(`✅ Logged in as ${client.user?.tag}!`);
+        console.groupEnd();
+    },
     once: true,
 };

@@ -16,7 +16,6 @@ export class Command implements ICommand {
   ) {
     // category is always the name of the folder the command is in
     this.category = path.basename(category);
-    console.log(this.category);
     this.countdown = countdown;
     this.data = data;
     this.execute = execute;

@@ -11,12 +11,13 @@ import { ICommand } from 'types';
 import * as commands from 'commands';
 
 async function main() {
+    console.group('🚀 Start Up...');
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
     // Create a new instance of the Google Calendar API
     const calendar: calendar_v3.Calendar = await googleAuth()
         .then((auth: JWT) => {
-            console.log('Google Authenticated');
+            console.log('☁️  Google Authenticated');
             return new calendar_v3.Calendar({ auth });
         })
         .catch((error: Error) => {
@@ -32,7 +33,7 @@ async function main() {
             commandsCollection.set(command.data.name, command);
         }
         else {
-            console.error(`[WARNING] The command ${name} is not a valid Command`);
+            console.warn(`[WARNING] The command ${name} is not a valid Command`);
         }
     }
     // #endregion
@@ -42,6 +43,14 @@ async function main() {
     // Add commands to the client
     const client: CustomClient = new CustomClient(1, commandsCollection, countdowns, calendar);
 
+    await client.login(process.env.DISCORD_TOKEN)
+        .then(() => {
+            console.log('🤖 Discord Authenticated');
+        })
+        .catch((error: Error) => {
+            throw new Error('Discord Authentication failed' + error);
+        });
+
     client.once(
         ready.name as Events.ClientReady,
         (...args) => ready.execute(...args),
@@ -50,15 +59,8 @@ async function main() {
         interactionCreate.name as Events.InteractionCreate,
         (...args) => interactionCreate.execute(...args),
     );
-
-
-    await client.login(process.env.DISCORD_TOKEN)
-        .then(() => { console.log('Discord logged'); })
-        .catch((error: Error) => {
-            throw new Error('Discord Authentication failed' + error);
-        });
 }
 
-main().catch((error) => {
+main().catch((error: Error) => {
     console.error('Error:', error);
 });

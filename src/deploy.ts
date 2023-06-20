@@ -1,8 +1,9 @@
+import { REST, Routes } from 'discord.js';
+import path from 'path';
+import dotenv from 'dotenv';
+
 import * as commands from 'commands';
 import { Command } from 'classes';
-import { REST, Routes } from 'discord.js';
-import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -17,7 +18,7 @@ for (const [name, command] of Object.entries(commands)) {
     }
 }
 
-const rest = new REST().setToken(process.env.DISCORD_TOKEN as string);
+const rest : REST = new REST().setToken(process.env.DISCORD_TOKEN as string);
 
 // and deploy your commands!
 (async () => {
@@ -31,7 +32,7 @@ const rest = new REST().setToken(process.env.DISCORD_TOKEN as string);
 			Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID as string, process.env.DISCORD_GUILD_ID as string),
 			{ body: commandsArray },
 		);
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		console.log(`Successfully reloaded ${data.length as number} application (/) commands.`);
 	}
 	catch (error) {
 		// And of course, make sure you catch and log any errors!
