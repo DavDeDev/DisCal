@@ -1,5 +1,5 @@
 import { EventType, ICalEvent } from 'types';
-import { APIEmbed, APIEmbedField } from 'discord.js';
+import { APIEmbed, APIEmbedField, inlineCode } from 'discord.js';
 
 export class EmbedMessage implements APIEmbed {
     color: number;
@@ -25,11 +25,25 @@ export class EmbedMessage implements APIEmbed {
     ];
 
     constructor(CalEvent: ICalEvent) {
-        this.title = `${CalEvent.title} (${EventType.getEmoji(CalEvent.type)})`;
+        this.title = `${EventType.getEmoji(CalEvent.type)} - ${CalEvent.title}`;
         this.url = CalEvent.url;
-        this.fields[0].value = CalEvent.location;
-        this.fields[1].value = CalEvent.start.toLocaleString();
-        this.fields[2].value = CalEvent.end.toLocaleString();
+        this.fields[0].value = inlineCode(CalEvent.location);
+        this.fields[1].value = inlineCode(CalEvent.start.toLocaleString(undefined, {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+        })) as string;
+        this.fields[2].value = inlineCode(CalEvent.end.toLocaleString(undefined, {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+        }));
         this.color = EventType.getColor(CalEvent.type);
     }
 }
