@@ -7,7 +7,7 @@ import path from 'path';
 import googleAuth from './googleAuth';
 import { CustomClient, Command } from 'classes';
 import { ready, interactionCreate } from '@/events';
-import { ICommand } from 'interfaces';
+import { ICommand } from 'types';
 import * as commands from 'commands';
 
 async function main() {

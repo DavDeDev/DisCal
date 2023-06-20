@@ -35,7 +35,7 @@
       "@/*": ["*"],
       "@commands/*": ["commands/*"],
       "@events/*": ["events/*"],
-      "@interfaces/*": ["interfaces/*"],
+      "@types/*": ["types/*"],
       "@classes/*": ["classes/*"],
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

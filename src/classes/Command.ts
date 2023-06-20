@@ -1,4 +1,4 @@
-import { ICommand } from 'interfaces';
+import { ICommand } from '@/types';
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import path from 'path';
 

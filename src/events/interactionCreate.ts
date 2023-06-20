@@ -1,6 +1,6 @@
 import { Command, CustomClient } from 'classes';
 import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
-import { IEvent } from 'interfaces';
+import { IEvent } from '@/types';
 
 
 export const interactionCreate: IEvent = {
