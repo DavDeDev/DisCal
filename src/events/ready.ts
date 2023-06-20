@@ -7,7 +7,7 @@ import { ICustomClient, IEvent } from '@/types';
 export const ready: IEvent = {
     name: Events.ClientReady,
     execute: (client: ICustomClient) => {
-        console.log(`✅ Logged in as ${client.user?.tag}!`);
+        console.log(`✅ Logged in as ${client.user?.tag}`);
         console.groupEnd();
     },
     once: true,
