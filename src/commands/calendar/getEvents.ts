@@ -1,9 +1,9 @@
 import { calendar_v3 } from 'googleapis';
 import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, TextBasedChannel } from 'discord.js';
 
-import { Command, CustomClient } from 'classes';
-import { ICalEvent } from 'types';
-import { }
+import { jsonEventSanitize } from '@/util';
+import { Command, CustomClient, EmbedMessage } from 'classes';
+import { ICalEvent } from '@/types';
 
 export const getEvents: Command = new Command(
     __dirname,
@@ -38,48 +38,12 @@ export const getEvents: Command = new Command(
             await interaction.editReply('No upcoming events found.');
             return;
         }
-        console.log('%j', events);
 
 
         await interaction.editReply('Upcoming week\'s events:');
         events.map(async (event) => {
-            const newJson : ICalEvent = 
-
-            // const embed: APIEmbed = {
-            //     color: 0xf35b05 as number,
-            //     title: event.summary as string,
-            //     url: event.htmlLink as string,
-            //     thumbnail:
-            //     {
-            //         url: 'https://imgur.com/a/jWsp9WC' as string,
-            //     } as APIEmbedThumbnail,
-            //     description: event.description as string,
-            //     image: {
-            //         url: 'https://imgur.com/a/jWsp9WC' as string,
-            //         // width: 100 as number,
-            //         // height: 100 as number,
-            //     } as APIEmbedImage,
-            //     fields: [
-            //         {
-            //             name: 'Start',
-            //             value: event.start?.dateTime?.toString() as string,
-            //             inline: true,
-            //         },
-            //         {
-            //             name: 'End',
-            //             value: event.end?.dateTime?.toString() as string,
-            //             inline: true,
-            //         },
-            //     ],
-            //     timestamp: event.created as string,
-            // };
-
-            // // if (event.attendees !== undefined) {
-            // //     embed.fields?.push({
-            // //         name: 'Attendees',
-            // //         value: event.attendees.map((attendee) => attendee.displayName).join('\n'),
-            // //     });
-            // // }
+            const Ievent: ICalEvent = jsonEventSanitize(event);
+            const embed: EmbedMessage = new EmbedMessage(Ievent);
             await channel.send({ embeds: [embed] });
         });
     });
