@@ -1,5 +1,5 @@
 import { calendar_v3 } from 'googleapis';
-import CustomClient from 'classes/CustomClient';
+import { CustomClient } from 'classes/CustomClient';
 import dotenv from 'dotenv';
 
 export default async function createBot(calendar: calendar_v3.Calendar) {

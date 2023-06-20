@@ -38,17 +38,25 @@ async function main() {
     // #endregion
 
     // Create a collection of countdowns
-    const countdowns: Collection<string, Collection<string, number>> = new Collection();
+    const countdowns: Collection<string, Collection<string, number>> = new Collection<string, Collection<string, number>>();
     // Add commands to the client
     const client: CustomClient = new CustomClient(1, commandsCollection, countdowns, calendar);
 
-    client.once(ready.name as Events.ClientReady, (...args) => ready.execute(...args));
-    client.on(interactionCreate.name as Events.InteractionCreate, (...args) => interactionCreate.execute(...args));
+    client.once(
+        ready.name as Events.ClientReady,
+        (...args) => ready.execute(...args),
+    );
+    client.on(
+        interactionCreate.name as Events.InteractionCreate,
+        (...args) => interactionCreate.execute(...args),
+    );
 
 
     await client.login(process.env.DISCORD_TOKEN)
         .then(() => { console.log('Discord logged'); })
-        .catch(() => { console.error('Discord login failed'); });
+        .catch((error: Error) => {
+            throw new Error('Discord Authentication failed' + error);
+        });
 }
 
 main().catch((error) => {

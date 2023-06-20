@@ -1,3 +1,3 @@
 // fun/index.ts
 
-export * from './list';
+export * from './getEvents';
