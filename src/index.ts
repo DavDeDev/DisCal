@@ -4,7 +4,7 @@ import { calendar_v3 } from 'googleapis';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import googleAuth from './googleAuth';
+import { googleAuth } from '@/util';
 import { CustomClient, Command } from 'classes';
 import { ready, interactionCreate } from '@/events';
 import { ICommand } from 'types';
