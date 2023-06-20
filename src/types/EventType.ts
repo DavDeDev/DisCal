@@ -27,5 +27,5 @@ export const EventType = {
             default:
                 return '❓';
         }
-    }
+    },
 };
