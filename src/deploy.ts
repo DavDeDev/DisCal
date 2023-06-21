@@ -14,7 +14,7 @@ for (const [name, command] of Object.entries(commands)) {
         commandsArray.push(command.data.toJSON());
     }
     else {
-        console.error(`[WARNING] The command ${name} is not a valid Command`);
+        console.warn(`🟡 The command ${name} is not a valid Command`);
     }
 }
 
@@ -23,7 +23,7 @@ const rest : REST = new REST().setToken(process.env.DISCORD_TOKEN as string);
 // and deploy your commands!
 (async () => {
 	try {
-		console.log(`Started refreshing ${commandsArray.length} application (/) commands.`);
+		console.log(`🚀 Started refreshing ${commandsArray.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data : any = await rest.put(
@@ -32,7 +32,7 @@ const rest : REST = new REST().setToken(process.env.DISCORD_TOKEN as string);
 			Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID as string, process.env.DISCORD_GUILD_ID as string),
 			{ body: commandsArray },
 		);
-		console.log(`Successfully reloaded ${data.length as number} application (/) commands.`);
+		console.log(`✅ Successfully reloaded ${data.length as number} application (/) commands.`);
 	}
 	catch (error) {
 		// And of course, make sure you catch and log any errors!

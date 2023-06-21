@@ -57,7 +57,7 @@ export const interactionCreate: IEvent = {
             console.error(`Error executing ${interaction.commandName}`);
             console.error(error);
         }
-        console.log(`🔳 Command ${interaction.commandName.toUpperCase()} was executed.`);
+        console.log(`🟢 Command ${interaction.commandName.toUpperCase()} was executed.`);
     },
     once: false,
 };
