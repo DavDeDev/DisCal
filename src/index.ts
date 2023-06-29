@@ -11,7 +11,9 @@ import { ICommand } from 'types';
 import * as commands from 'commands';
 
 async function main() {
+
     console.group('🚀 Start Up...');
+
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
     // Create a new instance of the Google Calendar API
@@ -48,13 +50,14 @@ async function main() {
             console.log('🤖 Discord Authenticated');
         })
         .catch((error: Error) => {
-            throw new Error('❌ Discord Authentication failed' + error);
+            throw new Error('❌ Discord Authentication failed: ' + error);
         });
 
     client.once(
         ready.name as Events.ClientReady,
         (...args) => ready.execute(...args),
     );
+
     client.on(
         interactionCreate.name as Events.InteractionCreate,
         (...args) => interactionCreate.execute(...args),
