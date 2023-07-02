@@ -1,5 +1,5 @@
 import { ICommand } from '@/types';
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, JSONEncodable, RESTPostAPIApplicationCommandsJSONBody, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandSubcommandsOnlyBuilder } from 'discord.js';
 import path from 'path';
 
 export class Command implements ICommand {
@@ -10,7 +10,7 @@ export class Command implements ICommand {
 
   constructor(
     category: string,
-    data: SlashCommandBuilder,
+    data:SlashCommandBuilder,
     execute: (interaction: ChatInputCommandInteraction) => Promise<void>,
     countdown = 10,
   ) {

@@ -1,10 +1,11 @@
 import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits } from 'discord.js';
 import { ICommand, ICustomClient } from '@/types';
 import { calendar_v3 } from 'googleapis';
+import { Command } from '@/classes';
 
 export class CustomClient extends Client implements ICustomClient {
-  commands: Collection<ICommand['data']['name'], ICommand>;
-  countdowns: Collection<ICommand['data']['name'], Collection<ChatInputCommandInteraction['user']['id'], number>>;
+  commands: Collection<Command['data']['name'], Command>;
+  countdowns: Collection<Command['data']['name'], Collection<ChatInputCommandInteraction['user']['id'], number>>;
   calendar: calendar_v3.Calendar;
 
   constructor(
