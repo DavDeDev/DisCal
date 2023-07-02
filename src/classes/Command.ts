@@ -1,5 +1,6 @@
 import { ICommand } from '@/types';
-import { ChatInputCommandInteraction, JSONEncodable, RESTPostAPIApplicationCommandsJSONBody, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandSubcommandsOnlyBuilder } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+
 import path from 'path';
 
 export class Command implements ICommand {

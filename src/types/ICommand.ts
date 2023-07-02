@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, JSONEncodable, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandSubcommandsOnlyBuilder } from 'discord.js';
+
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { calendar_v3 } from 'googleapis';
 
 export interface ICommand {

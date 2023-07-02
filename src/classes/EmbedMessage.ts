@@ -1,5 +1,6 @@
 import { EventType, ICalEvent } from 'types';
-import { APIEmbed, APIEmbedAuthor, APIEmbedField, inlineCode } from 'discord.js';
+import { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedImage, inlineCode } from 'discord.js';
+import { DescriptionMessage } from './DescriptionMessage';
 
 
 export class EmbedMessage implements APIEmbed {
@@ -11,45 +12,32 @@ export class EmbedMessage implements APIEmbed {
     color: number;
     title: string;
     url: string;
-    fields: APIEmbedField[] = [
-        {
-            name: 'Location',
-            value: '',
-            inline: false,
-        },
-        {
-            name: 'Start',
-            value: '',
-            inline: true,
-        },
-        {
-            name: 'End',
-            value: '',
-            inline: true,
-        },
+    description: string;
+    image: APIEmbedImage;
+    // fields: APIEmbedField[] = [
+    //     {
+    //         name: 'Location',
+    //         value: '',
+    //         inline: false,
+    //     },
+    //     {
+    //         name: 'Start',
+    //         value: '',
+    //         inline: true,
+    //     },
+    //     {
+    //         name: 'End',
+    //         value: '',
+    //         inline: true,
+    //     },
 
-    ];
+    // ];
 
     constructor(CalEvent: ICalEvent) {
         this.title = `${EventType.getEmoji(CalEvent.type)} - ${CalEvent.title}`;
         this.url = CalEvent.url;
-        this.fields[0].value = inlineCode(CalEvent.location);
-        this.fields[1].value = inlineCode(CalEvent.start.toLocaleString(undefined, {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-        })) as string;
-        this.fields[2].value = inlineCode(CalEvent.end.toLocaleString(undefined, {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-        }));
+        this.image = { url: EventType.getDefaultImage(CalEvent.type) };
+        this.description = new DescriptionMessage(CalEvent.type, CalEvent.isFree, CalEvent.location, CalEvent.start, CalEvent.end).toString();
         this.color = EventType.getColor(CalEvent.type);
     }
 }

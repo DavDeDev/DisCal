@@ -1,7 +1,7 @@
 // JWT is more specific then GoogleAuth => for Service Accounts
 import { JWT } from 'google-auth-library';
 // Load client secrets from a local file.
-import credentials from '../credentials.json';
+import credentials from '@/credentials.json';
 
 export async function googleAuth() {
     // Create a new JWT client using the credentials

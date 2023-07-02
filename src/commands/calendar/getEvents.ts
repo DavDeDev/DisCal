@@ -1,9 +1,9 @@
-import { calendar_v3 } from 'googleapis';
-import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, TextBasedChannel } from 'discord.js';
-
-import { jsonEventSanitize } from '@/util';
 import { Command, CustomClient, EmbedMessage } from 'classes';
-import { ICalEvent } from '@/types';
+import { ICalEvent } from 'types';
+import { jsonEventSanitize } from '@/util';
+import { SlashCommandBuilder, ChatInputCommandInteraction, CacheType, TextBasedChannel } from 'discord.js';
+import { calendar_v3 } from 'googleapis';
+
 
 export const getEvents: Command = new Command(
     __dirname,
@@ -42,8 +42,8 @@ export const getEvents: Command = new Command(
 
         await interaction.editReply('Upcoming week\'s events:');
         events.map(async (event) => {
-            const Ievent: ICalEvent = jsonEventSanitize(event);
-            const embed: EmbedMessage = new EmbedMessage(Ievent);
+            const iEvent: ICalEvent = jsonEventSanitize(event);
+            const embed: EmbedMessage = new EmbedMessage(iEvent);
             await channel.send({ embeds: [embed] });
         });
     });

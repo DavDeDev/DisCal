@@ -1,12 +1,11 @@
-import { calendar_v3 } from 'googleapis';
-import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBooleanOption, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandStringOption, TextBasedChannel } from 'discord.js';
+import { Command, EmbedMessage } from 'classes';
+import { CalEvent } from 'classes/CalEvent';
+import { EventType } from 'types';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType } from 'discord.js';
+import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
+
 import ogs from 'open-graph-scraper';
 
-import { Command, CustomClient } from 'classes';
-import { EventType, ICalEvent } from '@/types';
-import { EmbedMessage } from '@/classes/EmbedMessage';
-import { CalEvent } from '@/classes/CalEvent';
-import { OgObject, OpenGraphScraperOptions } from 'open-graph-scraper/dist/lib/types';
 
 export const addEvent: Command = new Command(
     __dirname,
