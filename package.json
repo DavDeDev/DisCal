@@ -31,6 +31,7 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.0",
     "google-auth-library": "^8.8.0",
-    "googleapis": "^118.0.0"
+    "googleapis": "^118.0.0",
+    "open-graph-scraper": "^6.2.1"
   }
 }

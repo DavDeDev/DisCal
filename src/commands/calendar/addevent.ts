@@ -3,9 +3,10 @@ import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommand
 import ogs from 'open-graph-scraper';
 
 import { Command, CustomClient } from 'classes';
-import { ICalEvent } from '@/types';
+import { EventType, ICalEvent } from '@/types';
 import { EmbedMessage } from '@/classes/EmbedMessage';
 import { CalEvent } from '@/classes/CalEvent';
+import { OgObject, OpenGraphScraperOptions } from 'open-graph-scraper/dist/lib/types';
 
 export const addEvent: Command = new Command(
     __dirname,
@@ -43,14 +44,49 @@ export const addEvent: Command = new Command(
         await interaction.deferReply();
 
         // Check if url is valid
-        try {
-            const url: URL = new URL(interaction.options.getString('url', true));
-        } catch (error) {
-            await interaction.editReply('🔴 The url you provided is invalid.');
-            throw new Error('The url you provided is invalid.');
-        }
+        // try {
+        //     const url: URL = new URL(interaction.options.getString('url', true));
+        // } catch (error) {
+        //     await interaction.editReply('🔴 The url you provided is invalid.');
+        //     throw new Error('The url you provided is invalid.');
+        // }
 
-        const event = new CalEvent('Test Event', 'https://www.google.com', 'Hackathon', true, 'Toronto', new Date('2021-10-10T10:00:00-04:00'), new Date('2021-10-10T11:00:00-04:00'));
+        const type: EventType = interaction.options.getString('type', true) as EventType;
+        const url: string = interaction.options.getString('url', true);
+        const isFree: boolean = interaction.options.getBoolean('free', false) ?? true;
+        const location: string = interaction.options.getString('location', false) ?? 'Online';
+
+
+        const options: OpenGraphScraperOptions = {
+            'url': url,
+            // ? Doesn't work as expected
+            // onlyGetOpenGraphInfo: false,
+        };
+        // ! Retrieve Title, Description, image
+        const metaData: OgObject = await ogs(options)
+            .then((data) => {
+                return data.result;
+            }).catch(async (error) => {
+                await interaction.editReply(`🔴 ${error.result.error}`);
+                throw new Error(`${error.result.error}`);
+            });
+
+        console.log(metaData);
+
+        const title: string = metaData.ogTitle ?? '';
+        const description: string = metaData.ogDescription ?? '';
+
+
+        const event = new CalEvent(
+            title,
+            url,
+            type,
+            isFree,
+            location,
+            new Date('2021-10-10T10:00:00-04:00'),
+            new Date('2021-10-10T11:00:00-04:00'),
+            description,
+        );
 
 
         const embed: EmbedMessage = new EmbedMessage(event);
