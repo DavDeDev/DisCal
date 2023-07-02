@@ -41,10 +41,6 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply();
 
-        const jsonTrial = {
-            type: 'Hackathon',
-        };
-
         const event: ICalEvent = {
             title: 'Test Event',
             url: 'https://www.google.com',
