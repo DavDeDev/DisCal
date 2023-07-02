@@ -1,7 +1,13 @@
 import { EventType, ICalEvent } from 'types';
-import { APIEmbed, APIEmbedField, inlineCode } from 'discord.js';
+import { APIEmbed, APIEmbedAuthor, APIEmbedField, inlineCode } from 'discord.js';
+
 
 export class EmbedMessage implements APIEmbed {
+    // ? Author is always the same or URL of event
+    author: APIEmbedAuthor = {
+        name: 'Calendar',
+        url: process.env.SHAREABLE_LINK_CALENDAR ?? 'https://github.com/DavDeDev',
+    };
     color: number;
     title: string;
     url: string;
