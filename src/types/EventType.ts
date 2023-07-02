@@ -1,6 +1,6 @@
 export type EventType = 'Hackathon' | 'Workshop' | 'Social' | 'Conference' | 'Other';
 export const EventType = {
-    getColor(eventType : EventType) : number {
+    getColor(eventType: EventType): number {
         switch (eventType) {
             case 'Hackathon':
                 return 0xFFA500;
@@ -14,7 +14,7 @@ export const EventType = {
                 return 0x808080;
         }
     },
-    getEmoji(eventType : EventType) : string {
+    getEmoji(eventType: EventType): string {
         switch (eventType) {
             case 'Hackathon':
                 return '🏆';
@@ -28,4 +28,8 @@ export const EventType = {
                 return '❓';
         }
     },
+    getDefaultPicture(eventType: EventType): string {
+        return `../../public/images/${eventType.toLowerCase}.png`;
+    },
+
 };
