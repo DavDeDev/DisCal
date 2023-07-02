@@ -16,7 +16,7 @@ export const interactionCreate: IEvent = {
 
         const commandName: string = command.data.name;
 
-        const userID : string = interaction.user.id;
+        const userID: string = interaction.user.id;
 
         // Get the collection of countdowns from the client
         const { countdowns } = client;
@@ -35,10 +35,10 @@ export const interactionCreate: IEvent = {
         if (timestamps.has(userID)) {
             const timestamp = timestamps.get(userID);
             if (timestamp) {
-                const expirationTime : number = cooldownAmount as number + timestamp as number;
+                const expirationTime: number = cooldownAmount as number + timestamp as number;
 
                 if (now < expirationTime) {
-                    const expiredTimestamp : number = Math.round(expirationTime as number / 1000);
+                    const expiredTimestamp: number = Math.round(expirationTime as number / 1000);
                     return interaction.reply({ content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`, ephemeral: true });
                 }
             }
@@ -53,8 +53,8 @@ export const interactionCreate: IEvent = {
 
         try {
             await command.execute(interaction as ChatInputCommandInteraction);
-        } catch (error : unknown) {
-            console.error(`Error executing ${interaction.commandName}`);
+        } catch (error: unknown) {
+            console.error(`🔴 Error executing ${interaction.commandName.toUpperCase()}`);
             console.error(error);
         }
         console.log(`🟢 Command ${interaction.commandName.toUpperCase()} was executed.`);
