@@ -1,10 +1,11 @@
 import { calendar_v3 } from 'googleapis';
 import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBooleanOption, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandStringOption, TextBasedChannel } from 'discord.js';
-
+import ogs from 'open-graph-scraper';
 
 import { Command, CustomClient } from 'classes';
 import { ICalEvent } from '@/types';
 import { EmbedMessage } from '@/classes/EmbedMessage';
+import { CalEvent } from '@/classes/CalEvent';
 
 export const addEvent: Command = new Command(
     __dirname,
@@ -41,14 +42,16 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply();
 
-        const event: ICalEvent = {
-            title: 'Test Event',
-            url: 'https://www.google.com',
-            start: new Date('2021-10-10T10:00:00-04:00'),
-            end: new Date('2021-10-10T11:00:00-04:00'),
-            location: 'Toronto',
-            type: 'Hackathon',
-        };
+        // Check if url is valid
+        try {
+            const url: URL = new URL(interaction.options.getString('url', true));
+        } catch (error) {
+            await interaction.editReply('🔴 The url you provided is invalid.');
+            throw new Error('The url you provided is invalid.');
+        }
+
+        const event = new CalEvent('Test Event', 'https://www.google.com', 'Hackathon', true, 'Toronto', new Date('2021-10-10T10:00:00-04:00'), new Date('2021-10-10T11:00:00-04:00'));
+
 
         const embed: EmbedMessage = new EmbedMessage(event);
 

@@ -54,8 +54,8 @@ export const interactionCreate: IEvent = {
         try {
             await command.execute(interaction as ChatInputCommandInteraction);
         } catch (error: unknown) {
-            console.error(`🔴 Error executing ${interaction.commandName.toUpperCase()}`);
-            console.error(error);
+            console.error(`🔴 Error executing ${interaction.commandName.toUpperCase()} : ${error}`);
+            return;
         }
         console.log(`🟢 Command ${interaction.commandName.toUpperCase()} was executed.`);
     },
