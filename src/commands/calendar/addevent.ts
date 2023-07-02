@@ -42,14 +42,6 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply();
 
-        // Check if url is valid
-        // try {
-        //     const url: URL = new URL(interaction.options.getString('url', true));
-        // } catch (error) {
-        //     await interaction.editReply('🔴 The url you provided is invalid.');
-        //     throw new Error('The url you provided is invalid.');
-        // }
-
         const type: EventType = interaction.options.getString('type', true) as EventType;
         const url: string = interaction.options.getString('url', true);
         const isFree: boolean = interaction.options.getBoolean('free', false) ?? true;
