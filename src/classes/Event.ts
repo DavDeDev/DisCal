@@ -9,7 +9,7 @@ export class Event implements IEvent {
     public execute: (interaction: ICustomClient) => void;
     constructor(name: string, execute: (interaction: Client) => void, once = false) {
         this.name = name;
-        this.once = once;
         this.execute = execute;
+        this.once = once;
     }
 }
