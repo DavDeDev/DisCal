@@ -8,6 +8,7 @@ export function jsonEventSanitize(json : any): ICalEvent {
         // We standardize the title on Google Calendar : Type*Title
         title: (json['summary']).split('*')[1] as string,
         url: json['htmlLink'] as string,
+        isFree: true,
         // TODO: Handle full day events
         // ISO Date format
         start: new Date(json['start']['dateTime']) as Date,
