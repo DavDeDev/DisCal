@@ -1,5 +1,5 @@
 import { calendar_v3 } from 'googleapis';
-import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandStringOption, TextBasedChannel } from 'discord.js';
+import { APIEmbed, APIEmbedImage, APIEmbedThumbnail, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBooleanOption, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder, SlashCommandStringOption, TextBasedChannel } from 'discord.js';
 
 
 import { Command, CustomClient } from 'classes';
@@ -14,11 +14,27 @@ export const addEvent: Command = new Command(
         .setName('add-event')
         .setDescription('Add an event to the calendar.')
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('URL')
-            .setDescription('The url of the event.'),
-        ).addStringOption((option: SlashCommandStringOption) => option
             .setName('type')
-            .setDescription('The title of the event.'),
+            .setDescription('The type of the event.')
+            .setRequired(true)
+            .addChoices(
+                // TODO: Find a way to make this dynamic
+                { name: 'Hackathon', value: 'Hackathon' },
+                { name: 'Workshop', value: 'Workshop' },
+                { name: 'Social', value: 'Social' },
+                { name: 'Conference', value: 'Conference' },
+                { name: 'Other', value: 'Other' },
+            ),
+        )
+        .addStringOption((option: SlashCommandStringOption) => option
+            .setName('url')
+            .setDescription('The url of the event.')
+            .setRequired(true),
+        )
+        .addBooleanOption((option: SlashCommandBooleanOption) => option
+            .setName('free')
+            .setDescription('Whether the event is free or not.')
+            .setRequired(false),
         ) as SlashCommandBuilder,
 
     async (interaction: ChatInputCommandInteraction<CacheType>) => {
