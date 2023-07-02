@@ -3,3 +3,4 @@ export * from './ICustomClient';
 export * from './IEvent';
 export * from './ICalEvent';
 export * from './EventType';
+export * from './IDescriptionEmbed';
