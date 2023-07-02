@@ -3,17 +3,21 @@ import { EventType, ICalEvent } from 'types';
 export class CalEvent implements ICalEvent {
     title: string;
     url: string;
+    type: EventType;
+    isFree: boolean;
+    location: string;
     start: Date;
     end: Date;
-    location: string;
-    type: EventType;
+    description: string;
 
-    constructor(title: string, url: string, start: Date, end: Date, location: string, type: EventType) {
+    constructor(title: string, url: string, type: EventType, isFree: boolean, location: string, start: Date, end: Date, description = '') {
         this.title = title;
         this.url = url;
+        this.type = type;
+        this.isFree = isFree;
+        this.location = location;
         this.start = start;
         this.end = end;
-        this.location = location;
-        this.type = type;
+        this.description = description;
     }
 }
