@@ -28,8 +28,11 @@ export const EventType = {
                 return '❓';
         }
     },
-    getDefaultPicture(eventType: EventType): string {
-        return `../../public/images/${eventType.toLowerCase}.png`;
+    getDefaultImage(eventType: EventType): string {
+        // ! JUST A PLACEHOLDER FOR NOW
+        return 'https://media.istockphoto.com/id/1189767041/vector/hackathon-signs-round-design-template-thin-line-icon-concept-vector.jpg?s=612x612&w=0&k=20&c=DW-btIjpNjItFfk35N4KvrMkoGoqd1rEPwb_uV9IZEU='
+        // TODO: APIEmbedImage.url doesn't support relative paths -> use attachment
+        // return `../../public/images/${eventType.toLowerCase}.png`;
     },
 
 };
