@@ -15,7 +15,6 @@ export class DescriptionMessage implements IDescriptionEmbed {
         this.end = end;
     }
     toString(): string {
-        console.log(this.start.getTime());
         return `**${this.type} - ${this.cost}**
         _${this.location}_
         \n**TIME**
