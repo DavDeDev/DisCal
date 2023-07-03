@@ -9,5 +9,4 @@ export interface ICalEvent {
     location: string;
     start: Date;
     end: Date;
-    description?: string;
 }
