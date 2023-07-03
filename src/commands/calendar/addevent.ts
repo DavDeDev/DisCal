@@ -1,10 +1,11 @@
 import { Command, EmbedMessage } from 'classes';
 import { CalEvent } from 'classes/CalEvent';
 import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, EmbedBuilder } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
+import * as dayjs from 'dayjs';
 
 
 export const addEvent: Command = new Command(
@@ -30,6 +31,16 @@ export const addEvent: Command = new Command(
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('url')
             .setDescription('The url of the event.')
+            .setRequired(true),
+        )
+        .addStringOption((option: SlashCommandStringOption) => option
+            .setName('start')
+            .setDescription('The start date/time of the event.')
+            .setRequired(true),
+        )
+        .addStringOption((option: SlashCommandStringOption) => option
+            .setName('end')
+            .setDescription('The end date/time of the event.')
             .setRequired(true),
         )
         .addBooleanOption((option: SlashCommandBooleanOption) => option
@@ -66,6 +77,7 @@ export const addEvent: Command = new Command(
 
         const title: string = metaData.ogTitle ?? '';
         const description: string = metaData.ogDescription ?? '';
+        const image: string = metaData.ogImage?.[0]?.url ?? EventType.getDefaultImage(type);
 
 
         const event = new CalEvent(
@@ -74,15 +86,22 @@ export const addEvent: Command = new Command(
             type,
             isFree,
             location,
-            new Date('2021-10-10T10:00:00-04:00'),
+            new Date('October 9 2021'),
             new Date('2021-10-10T11:00:00-04:00'),
             description,
         );
 
 
-        const embed: EmbedMessage = new EmbedMessage(event);
+        const embed: EmbedMessage = new EmbedMessage(event, image);
 
-        await interaction.editReply({ embeds: [embed] }).then((eee) => eee.react('✅').then(() => eee.react('❌')));
 
+        await interaction.editReply({ embeds: [embed] })
+            .then(
+                async (e) => {
+                     e.react('✅');
+                     e.react('❌');
+                },
+
+            );
 
     });

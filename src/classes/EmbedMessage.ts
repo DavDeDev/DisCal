@@ -14,29 +14,12 @@ export class EmbedMessage implements APIEmbed {
     url: string;
     description: string;
     image: APIEmbedImage;
-    // fields: APIEmbedField[] = [
-    //     {
-    //         name: 'Location',
-    //         value: '',
-    //         inline: false,
-    //     },
-    //     {
-    //         name: 'Start',
-    //         value: '',
-    //         inline: true,
-    //     },
-    //     {
-    //         name: 'End',
-    //         value: '',
-    //         inline: true,
-    //     },
 
-    // ];
-
-    constructor(CalEvent: ICalEvent) {
+    constructor(CalEvent: ICalEvent, image: string = EventType.getDefaultImage(CalEvent.type)) {
         this.title = `${EventType.getEmoji(CalEvent.type)} - ${CalEvent.title}`;
         this.url = CalEvent.url;
-        this.image = { url: EventType.getDefaultImage(CalEvent.type) };
+        // TODO: Add Width and Height
+        this.image = { url: image };
         this.description = new DescriptionMessage(CalEvent.type, CalEvent.isFree, CalEvent.location, CalEvent.start, CalEvent.end).toString();
         this.color = EventType.getColor(CalEvent.type);
     }
