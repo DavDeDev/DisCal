@@ -1,4 +1,3 @@
-
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { calendar_v3 } from 'googleapis';
 
