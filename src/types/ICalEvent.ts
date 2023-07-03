@@ -7,6 +7,7 @@ export interface ICalEvent {
     type: EventType;
     isFree: boolean;
     location: string;
-    time: string;
+    start: Date;
+    end: Date;
     description?: string;
 }
