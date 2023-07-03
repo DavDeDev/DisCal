@@ -5,7 +5,7 @@ import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOptio
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
-import * as dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 
 export const addEvent: Command = new Command(
@@ -34,12 +34,12 @@ export const addEvent: Command = new Command(
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('start')
+            .setName('starttime')
             .setDescription('The start date/time of the event.')
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('end')
+            .setName('endtime')
             .setDescription('The end date/time of the event.')
             .setRequired(true),
         )
@@ -51,12 +51,35 @@ export const addEvent: Command = new Command(
 
     async (interaction: ChatInputCommandInteraction<CacheType>) => {
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         const type: EventType = interaction.options.getString('type', true) as EventType;
         const url: string = interaction.options.getString('url', true);
         const isFree: boolean = interaction.options.getBoolean('free', false) ?? true;
         const location: string = interaction.options.getString('location', false) ?? 'Online';
+
+        // TODO: Integrate OpenAI to get the event schedule from text
+        const eventStartDate : Dayjs = dayjs(
+            interaction.options.getString('starttime', true),
+            ['MMMM-DD', 'MMM-DD', 'YYYY-MM-DD HH:mm', 'YYYY-MM-DD HH:mm', 'HH a', 'HH A', 'YYYY-MM-DDTHH:mm:ssZ'],
+        );
+        console.log(eventStartDate);
+        const eventEndDate : Dayjs = dayjs(
+            interaction.options.getString('endtime', true),
+            ['MMMM-DD', 'MMM-DD', 'YYYY-MM-DD HH:mm', 'YYYY-MM-DD HH:mm', 'HH a', 'HH A', 'YYYY-MM-DDTHH:mm:ssZ'], true,
+        );
+        console.log(eventEndDate);
+
+        // Handle invalid dates
+        if (!eventStartDate.isValid() || !eventEndDate.isValid()) {
+            await interaction.editReply('🔴 Invalid date format. Please use YYYY-MM-DD HH:mm.');
+            throw new Error('Invalid date format. Please use YYYY-MM-DD.');
+        }
+        if (eventStartDate > eventEndDate) {
+            await interaction.editReply('🔴 The start date must be before the end date.');
+            throw new Error('The start date must be before the end date.');
+        }
+
 
 
         const options: OpenGraphScraperOptions = {
@@ -86,8 +109,8 @@ export const addEvent: Command = new Command(
             type,
             isFree,
             location,
-            new Date('October 9 2021'),
-            new Date('2021-10-10T11:00:00-04:00'),
+            eventStartDate.toDate(),
+            eventEndDate.toDate(),
             description,
         );
 
@@ -98,8 +121,8 @@ export const addEvent: Command = new Command(
         await interaction.editReply({ embeds: [embed] })
             .then(
                 async (e) => {
-                     e.react('✅');
-                     e.react('❌');
+                    e.react('✅');
+                    e.react('❌');
                 },
 
             );
