@@ -48,6 +48,11 @@ export const addEvent: Command = new Command(
             .setDescription('The location of the event. (Default: Online)')
             .setRequired(false),
         )
+        .addStringOption((option: SlashCommandStringOption) => option
+            .setName('title')
+            .setDescription('Add a title to the event.')
+            .setRequired(false),
+        )
         .addBooleanOption((option: SlashCommandBooleanOption) => option
             .setName('free')
             .setDescription('Whether the event is free or not. (Default: Free)')
@@ -58,10 +63,27 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply({ ephemeral: true });
 
+        console.log(interaction.options);
+
         const type: EventType = interaction.options.getString('type', true) as EventType;
         const url: string = interaction.options.getString('url', true);
         const isFree: boolean = interaction.options.getBoolean('free', false) ?? true;
         const location: string = interaction.options.getString('location', false) ?? 'Online';
+
+        const ogOptions: OpenGraphScraperOptions = {
+            'url': url,
+            // ? Doesn't work as expected
+            // onlyGetOpenGraphInfo: false,
+        };
+        // ! Retrieve Title, Description, image
+        const metaData: OgObject = await ogs(ogOptions)
+            .then((data) => {
+                return data.result;
+            }).catch(async (error) => {
+                // Invalid url is caught here
+                await interaction.editReply(`🔴 ${error.result.error}`);
+                throw new Error(`${error.result.error}`);
+            });
 
         // TODO: Integrate OpenAI to get the event schedule from text
         const eventStartDate: Dayjs = dayjs(
@@ -69,7 +91,7 @@ export const addEvent: Command = new Command(
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
             true,
         );
-        console.log(eventStartDate);
+
         const eventEndDate: Dayjs = dayjs(
             interaction.options.getString('endtime', true),
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
@@ -86,25 +108,18 @@ export const addEvent: Command = new Command(
             throw new Error('The start date must be before the end date.');
         }
 
-        const options: OpenGraphScraperOptions = {
-            'url': url,
-            // ? Doesn't work as expected
-            // onlyGetOpenGraphInfo: false,
-        };
-        // ! Retrieve Title, Description, image
-        const metaData: OgObject = await ogs(options)
-            .then((data) => {
-                return data.result;
-            }).catch(async (error) => {
-                await interaction.editReply(`🔴 ${error.result.error}`);
-                throw new Error(`${error.result.error}`);
-            });
 
-        console.log(metaData);
+        const title: string = interaction.options.getString('title', false) ?? metaData.ogTitle ?? 'Not retrieved';
 
-        const title: string = metaData.ogTitle ?? '';
-        const image: string = metaData.ogImage?.[0]?.url ?? EventType.getDefaultImage(type);
-        console.log(image);
+        let image: string;
+        // If the image is not found, use the default image
+        try {
+            image = new URL(metaData.ogImage?.[0]?.url ?? '').toString();
+        }
+        catch (error) {
+            image = new URL(EventType.getDefaultImage(type)).toString();
+        }
+        // console.log(image);
 
         const event = new CalEvent(
             title,
@@ -116,12 +131,12 @@ export const addEvent: Command = new Command(
             eventEndDate.toDate(),
         );
 
-        console.log('before embed');
         const embed: EmbedMessage = new EmbedMessage(event, image);
-        console.log('after embed');
 
 
         await interaction.editReply({ embeds: [embed] });
+
+        // ! You can't react to ephemeral messages
         // .then(
         //     async (e) => {
         //         e.react('✅');
