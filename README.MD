@@ -214,13 +214,13 @@ _For additional clarification or assistance, you can refer to this [comment](htt
    ```
 3. Follow the instruction in the **`.env.example`** file
 4. Deploy your Bot commands to a server:
-  ```sh
+    ```sh
     npm run deploy-commands
-  ```
+    ```
 5. Run your bot:
-  ```sh
+    ```sh
     npm run start:dev
-  ```
+    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
