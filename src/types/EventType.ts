@@ -1,4 +1,11 @@
+/**
+ * Enum for event types
+ */
 export type EventType = 'Hackathon' | 'Workshop' | 'Social' | 'Conference' | 'Other';
+
+/**
+ * Constrain certain types for the Event and useful methods
+ */
 export const EventType = {
     getColor(eventType: EventType): number {
         switch (eventType) {

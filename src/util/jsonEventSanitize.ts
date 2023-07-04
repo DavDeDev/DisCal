@@ -1,5 +1,11 @@
 import { EventType, ICalEvent } from 'types';
 
+/**
+ * This function converts the object returned by the Calendar API to an application-friendly object.
+ *
+ * @param json The JSON returned by Calendar API when listing events from calendar
+ * @returns a @type ICalEvent compatible with rest of application
+ */
 export function jsonEventSanitize(json : any): ICalEvent {
 
     console.log('%j', json);

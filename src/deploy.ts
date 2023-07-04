@@ -20,7 +20,9 @@ for (const [name, command] of Object.entries(commands)) {
 
 const rest : REST = new REST().setToken(process.env.DISCORD_TOKEN as string);
 
-// and deploy your commands!
+/**
+ * The main function that deploys the commands to the Discord Server
+ */
 (async () => {
 	try {
 		console.log(`🚀 Started refreshing ${commandsArray.length} application (/) commands.`);

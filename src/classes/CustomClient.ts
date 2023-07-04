@@ -3,11 +3,31 @@ import { ICommand, ICustomClient } from '@/types';
 import { calendar_v3 } from 'googleapis';
 import { Command } from 'classes';
 
+/**
+ * Represents the Discord bot client adding properties to the default Client Class.
+ */
 export class CustomClient extends Client implements ICustomClient {
+  /**
+   * The collection of commands.
+   */
   commands: Collection<Command['data']['name'], Command>;
+  /**
+   * The collection of countdowns per each command, per each user.
+   */
   countdowns: Collection<Command['data']['name'], Collection<ChatInputCommandInteraction['user']['id'], number>>;
+  /**
+   * The Google Calendar API.
+   * @see https://developers.google.com/calendar
+   */
   calendar: calendar_v3.Calendar;
 
+  /**
+   * Creates a new instance of the CustomClient class.
+   * @param intents The intents to use for the client.
+   * @param commands The collection of commands.
+   * @param countdowns The collection of countdowns per each command, per each user.
+   * @param calendar The Google Calendar API.
+   */
   constructor(
     intents: GatewayIntentBits,
     commands: Collection<string, ICommand> = new Collection(),

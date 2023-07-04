@@ -5,15 +5,21 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import { googleAuth } from '@/util';
-import { CustomClient, Command } from 'classes';
 import { ready, interactionCreate } from '@/events';
+import { CustomClient, Command } from 'classes';
 import { ICommand } from 'types';
 import * as commands from 'commands';
 
+/**
+ * The main function that initializes and runs the application.
+ * It performs Google authentication, sets up commands and countdowns,
+ * and authenticates the Discord bot.
+ */
 async function main() {
 
     console.group('🚀 Start Up...');
 
+    // Load environment variables from .env file
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
     // Create a new instance of the Google Calendar API
@@ -26,10 +32,10 @@ async function main() {
             throw new Error('❌ Google Authentication failed' + error);
         });
 
-    // #region Create a collection of commands
     // Create a collection of commands
     const commandsCollection: Collection<string, ICommand> = new Collection();
 
+    // Add valid commands to the commands collection
     for (const [name, command] of Object.entries(commands)) {
         if (command instanceof Command) {
             commandsCollection.set(command.data.name, command);
@@ -38,13 +44,15 @@ async function main() {
             console.warn(`🟡 The command ${name} is not a valid Command`);
         }
     }
-    // #endregion
+
 
     // Create a collection of countdowns
     const countdowns: Collection<string, Collection<string, number>> = new Collection<string, Collection<string, number>>();
-    // Add commands to the client
+
+    // Create a new instance of the Discord Client
     const client: CustomClient = new CustomClient(1, commandsCollection, countdowns, calendar);
 
+    // Authenticate the Discord bot using the provided token
     await client.login(process.env.DISCORD_TOKEN)
         .then(() => {
             console.log('🤖 Discord Authenticated');
@@ -53,17 +61,20 @@ async function main() {
             throw new Error('❌ Discord Authentication failed: ' + error);
         });
 
+    // Execute the ready event once the client is ready
     client.once(
         ready.name as Events.ClientReady,
         (...args) => ready.execute(...args),
     );
 
+    // Execute the interactionCreate event whenever an interaction occurs
     client.on(
         interactionCreate.name as Events.InteractionCreate,
         (...args) => interactionCreate.execute(...args),
     );
 }
 
+// Call the main function and handle any errors that occur
 main().catch((error: Error) => {
     console.error('Error:', error);
 });

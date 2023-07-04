@@ -3,6 +3,9 @@ import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
 import { IEvent } from '@/types';
 
 
+/**
+ * 
+ */
 export const interactionCreate: IEvent = {
     name: Events.InteractionCreate,
     execute: async (interaction: ChatInputCommandInteraction) => {

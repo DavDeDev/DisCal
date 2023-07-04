@@ -1,5 +1,8 @@
 import { EventType, ICalEvent } from 'types';
 
+/**
+* CalEvent contains all the information about an event, can be converted to a Google Calendar compatible event
+*/
 export class CalEvent implements ICalEvent {
     title: string;
     url: string;
@@ -19,7 +22,11 @@ export class CalEvent implements ICalEvent {
         this.end = end;
     }
 
-    // Transform the CalEvent into a Google Calendar compatible Event
+    /**
+     * It converts the CalEvent object to a Google Calendar compatible event object
+     * 
+     * @returns a Google Calendar API compatible event object
+     */
     toGoogleCalendarEvent(): any {
         return {
             'summary': `${this.type}*${this.title}`,

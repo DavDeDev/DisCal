@@ -3,6 +3,11 @@ import { JWT } from 'google-auth-library';
 // Load client secrets from a local file.
 import credentials from '@/credentials.json';
 
+/**
+ * This functions authenticate the user to access Google Cloud services
+ *
+ * @returns The Google client connected to GCP services
+ */
 export async function googleAuth() {
     // Create a new JWT client using the credentials
     const client: JWT = new JWT({
@@ -13,11 +18,6 @@ export async function googleAuth() {
 
     // Authenticate the client
     await client.authorize();
-
-    // // Create a new instance of the Google Calendar API
-    // const calendar: calendar_v3.Calendar = google.calendar({ version: 'v3', auth: client });
-
-    // return calendar;
 
     return client;
 }

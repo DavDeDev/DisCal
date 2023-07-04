@@ -1,5 +1,6 @@
 import { EventType } from 'types';
 
+// Represent a Calendar Event object compatible with the application
 export interface ICalEvent {
     // https://developers.google.com/calendar/api/v3/reference/events/insert
     title: string;

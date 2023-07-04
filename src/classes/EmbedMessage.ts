@@ -3,6 +3,9 @@ import { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedImage, inlineCode } fr
 import { DescriptionMessage } from './DescriptionMessage';
 
 
+/**
+ * Represent the embed object with Calendar details
+ */
 export class EmbedMessage implements APIEmbed {
     // ? Author is always the same or URL of event
     author: APIEmbedAuthor = {

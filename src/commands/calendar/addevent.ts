@@ -1,13 +1,16 @@
 import { Command, EmbedMessage } from 'classes';
 import { CalEvent } from 'classes/CalEvent';
 import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
 import dayjs, { Dayjs } from 'dayjs';
 
 
+/**
+ * @
+ */
 export const addEvent: Command = new Command(
     __dirname,
 
@@ -50,7 +53,7 @@ export const addEvent: Command = new Command(
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('title')
-            .setDescription('Add a title to the event.')
+            .setDescription('Add a title to the event. (By default, the title is retrieved from the url.)')
             .setRequired(false),
         )
         .addBooleanOption((option: SlashCommandBooleanOption) => option
@@ -121,7 +124,7 @@ export const addEvent: Command = new Command(
         }
         // console.log(image);
 
-        const event = new CalEvent(
+        const event : CalEvent = new CalEvent(
             title,
             url,
             type,
@@ -133,8 +136,42 @@ export const addEvent: Command = new Command(
 
         const embed: EmbedMessage = new EmbedMessage(event, image);
 
+        // Confirm button
+        const confirmButton = new ButtonBuilder()
+            .setCustomId('send')
+            .setLabel('Send')
+            .setStyle(ButtonStyle.Success);
 
-        await interaction.editReply({ embeds: [embed] });
+        // Cancel button
+        const cancelButton = new ButtonBuilder()
+            .setCustomId('cancel')
+            .setLabel('Cancel')
+            .setStyle(ButtonStyle.Danger);
+
+
+        const row = new ActionRowBuilder<ButtonBuilder>()
+            .addComponents(confirmButton, cancelButton);
+
+
+        const response: Message<boolean> = await interaction.editReply({ embeds: [embed], components: [row] });
+
+        const collectorFilter = (i: { user: { id: string; }; }) => i.user.id === interaction.user.id;
+
+        try {
+            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
+
+            if (confirmation.customId === 'send') {
+                await interaction.editReply({ content: '✅ Event added to the calendar.' });
+                return;
+            }
+            else if (confirmation.customId === 'cancel') {
+                await interaction.editReply({ content: '❌ Event cancelled.', embeds: [embed], components: [] });
+            }
+        }
+        catch (error) {
+            console.log(error);
+            await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling', embeds: [embed], components: [] });
+        }
 
         // ! You can't react to ephemeral messages
         // .then(

@@ -1,3 +1,6 @@
+/**
+ * Represents the Event object with name and whether it should be triggered just once
+ */
 export interface IEvent {
     name: string;
     // function to execute when the event is triggered
