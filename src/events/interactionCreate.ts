@@ -1,5 +1,5 @@
 import { Command, CustomClient } from 'classes';
-import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
+import { ButtonInteraction, CacheType, ChatInputCommandInteraction, Collection, Events } from 'discord.js';
 import { IEvent } from '@/types';
 
 
@@ -8,7 +8,16 @@ import { IEvent } from '@/types';
  */
 export const interactionCreate: IEvent = {
     name: Events.InteractionCreate,
-    execute: async (interaction: ChatInputCommandInteraction) => {
+    execute: async (interaction: ChatInputCommandInteraction | ButtonInteraction<CacheType>) => {
+        console.group(`🔵 ${interaction}`);
+        if (interaction instanceof ButtonInteraction) {
+			console.log('🔲 Button interaction');
+            console.log(interaction);
+            // interaction.deferUpdate();
+            // interaction.followUp({ content: 'Button interaction', ephemeral: true });
+            console.log('========================', interaction.client);
+            return;
+		}
         const client: CustomClient = interaction.client as CustomClient;
         const command: Command | undefined = client.commands.get(interaction.commandName);
 
@@ -61,6 +70,7 @@ export const interactionCreate: IEvent = {
             return;
         }
         console.log(`🟢 Command ${interaction.commandName.toUpperCase()} was executed.`);
+        console.groupEnd();
     },
     once: false,
 };

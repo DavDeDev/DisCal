@@ -1,7 +1,7 @@
 import { Command, EmbedMessage } from 'classes';
 import { CalEvent } from 'classes/CalEvent';
 import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
@@ -66,7 +66,8 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply({ ephemeral: true });
 
-        console.log(interaction.options);
+        console.log('Interaction options:');
+        console.table((interaction.options as any)._hoistedOptions);
 
         const type: EventType = interaction.options.getString('type', true) as EventType;
         const url: string = interaction.options.getString('url', true);
@@ -92,13 +93,13 @@ export const addEvent: Command = new Command(
         const eventStartDate: Dayjs = dayjs(
             interaction.options.getString('starttime', true),
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
-            true,
+            false,
         );
 
         const eventEndDate: Dayjs = dayjs(
             interaction.options.getString('endtime', true),
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
-            true,
+            false,
         );
 
         // Handle invalid dates
@@ -124,7 +125,7 @@ export const addEvent: Command = new Command(
         }
         // console.log(image);
 
-        const event : CalEvent = new CalEvent(
+        const event: CalEvent = new CalEvent(
             title,
             url,
             type,
@@ -161,28 +162,28 @@ export const addEvent: Command = new Command(
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
 
             if (confirmation.customId === 'send') {
-                await interaction.editReply({ content: '✅ Event added to the calendar.' });
+                await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
+                await interaction.followUp({ embeds: [embed] })
+                    .then(
+                        async (e) => {
+                            e.react('✅');
+                            e.react('❌');
+                        },
+
+                    )
+                    .catch(async (error) => {
+                        console.error('Error:', error);
+                    });
                 return;
             }
             else if (confirmation.customId === 'cancel') {
-                await interaction.editReply({ content: '❌ Event cancelled.', embeds: [embed], components: [] });
+                await interaction.editReply({ content: '❌ Event cancelled.', embeds: [], components: [] });
+                return;
             }
         }
         catch (error) {
-            console.log(error);
-            await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling', embeds: [embed], components: [] });
+            console.error('Error:', error);
+            await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling...', embeds: [], components: [] });
+            return;
         }
-
-        // ! You can't react to ephemeral messages
-        // .then(
-        //     async (e) => {
-        //         e.react('✅');
-        //         e.react('❌');
-        //     },
-
-        // )
-        // .catch(async (error) => {
-        //     console.log("error");
-        // });
-
     });
