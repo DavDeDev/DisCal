@@ -35,6 +35,11 @@ export const EventType = {
                 return '❓';
         }
     },
+    /**
+     *
+     * @param eventType
+     * @returns Return the default image for the event type in case no Open Graph image is found
+     */
     getDefaultImage(eventType: EventType): string {
         // TODO: implement Google Drive API to retrieve images
         switch (eventType) {
