@@ -10,15 +10,15 @@ export const EventType = {
     getColor(eventType: EventType): number {
         switch (eventType) {
             case 'Hackathon':
-                return 0xFFA500;
+                return 0xd559ff;
             case 'Workshop':
-                return 0x0000FF;
+                return 0xf7c22f;
             case 'Social':
-                return 0x00FF00;
+                return 0x2d4249;
             case 'Conference':
-                return 0x800080;
+                return 0x64f3fe;
             default:
-                return 0x808080;
+                return 0x7e92f7;
         }
     },
     getEmoji(eventType: EventType): string {
@@ -36,10 +36,19 @@ export const EventType = {
         }
     },
     getDefaultImage(eventType: EventType): string {
-        // ! JUST A PLACEHOLDER FOR NOW
-        return 'https://media.istockphoto.com/id/1189767041/vector/hackathon-signs-round-design-template-thin-line-icon-concept-vector.jpg?s=612x612&w=0&k=20&c=DW-btIjpNjItFfk35N4KvrMkoGoqd1rEPwb_uV9IZEU='
-        // TODO: APIEmbedImage.url doesn't support relative paths -> use attachment
-        // return `../../public/images/${eventType.toLowerCase}.png`;
+        // TODO: implement Google Drive API to retrieve images
+        switch (eventType) {
+            case 'Hackathon':
+                return 'https://i.ibb.co/7jg6wB4/hackathon.png';
+            case 'Workshop':
+                return 'https://i.ibb.co/gZKFK0Y/workshop.png';
+            case 'Social':
+                return 'https://i.ibb.co/kDpQbXW/social.png';
+            case 'Conference':
+                return 'https://i.ibb.co/WPtgDcG/conference.png';
+            default:
+                return 'https://i.ibb.co/CJr7Vkw/other.png';
+        }
     },
 
 };
