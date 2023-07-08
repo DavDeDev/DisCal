@@ -156,34 +156,35 @@ export const addEvent: Command = new Command(
 
         const response: Message<boolean> = await interaction.editReply({ embeds: [embed], components: [row] });
 
-        const collectorFilter = (i: { user: { id: string; }; }) => i.user.id === interaction.user.id;
+        // const userFilter = (i: { user: { id: string; bot: boolean }; }) =>
+        //  !i.user.bot && i.user.id === interaction.user.id;
 
-        try {
-            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
+        // try {
+        //     const confirmation = await response.awaitMessageComponent({ filter: userFilter, time: 60_000 });
 
-            if (confirmation.customId === 'send') {
-                await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
-                await interaction.followUp({ embeds: [embed] })
-                    .then(
-                        async (e) => {
-                            e.react('✅');
-                            e.react('❌');
-                        },
+        //     if (confirmation.customId === 'send') {
+        //         await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
+        //         await interaction.followUp({ embeds: [embed] })
+        //             .then(
+        //                 async (e) => {
+        //                     e.react('✅');
+        //                     e.react('❌');
+        //                 },
 
-                    )
-                    .catch(async (error) => {
-                        console.error('Error:', error);
-                    });
-                return;
-            }
-            else if (confirmation.customId === 'cancel') {
-                await interaction.editReply({ content: '❌ Event cancelled.', embeds: [], components: [] });
-                return;
-            }
-        }
-        catch (error) {
-            console.error('Error:', error);
-            await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling...', embeds: [], components: [] });
-            return;
-        }
+        //             )
+        //             .catch(async (error) => {
+        //                 console.error('Error:', error);
+        //             });
+        //         return;
+        //     }
+        //     else if (confirmation.customId === 'cancel') {
+        //         await interaction.editReply({ content: '❌ Event cancelled.', embeds: [], components: [] });
+        //         return;
+        //     }
+        // }
+        // catch (error) {
+        //     console.error('Error:', error);
+        //     await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling...', embeds: [], components: [] });
+        //     return;
+        // }
     });
