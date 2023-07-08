@@ -13,7 +13,7 @@ export const ready: IEvent = {
     execute: (client: ICustomClient) => {
         console.log(`✅ Logged in as ${client.user?.tag}`);
         console.groupEnd();
-        console.log('🌑 Setup completed');
+        console.timeEnd('⏱️ Setup completed in');
     },
     once: true,
 };

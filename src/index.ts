@@ -17,6 +17,7 @@ import * as commands from 'commands';
  */
 async function main() {
 
+    console.time('⏱️ Setup completed in');
     console.group('🚀 Start Up...');
 
     // Load environment variables from .env file
