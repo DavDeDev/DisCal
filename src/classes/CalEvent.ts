@@ -1,3 +1,4 @@
+import { calendar_v3 } from 'googleapis';
 import { EventType, ICalEvent } from 'types';
 
 /**
@@ -27,18 +28,18 @@ export class CalEvent implements ICalEvent {
      * 
      * @returns a Google Calendar API compatible event object
      */
-    toGoogleCalendarEvent(): any {
+    toGoogleCalendarEvent(): calendar_v3.Schema$Event {
         return {
             'summary': `${this.type}*${this.title}`,
             'location': this.location,
             'description': `${this.isFree}*${this.url}`,
             'start': {
                 'dateTime': this.start.toISOString(),
-                'timeZone': 'Canada/Toronto',
+                'timeZone': 'America/Toronto',
             },
             'end': {
                 'dateTime': this.end.toISOString(),
-                'timeZone': 'Canada/Toronto',
+                'timeZone': 'America/Toronto',
             },
         };
     }
