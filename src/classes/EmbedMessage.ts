@@ -1,4 +1,4 @@
-import { EventType, ICalEvent } from 'types';
+import { EventType, ICalEvent, IEmbedMessage } from 'types';
 import { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedImage, channelLink, inlineCode } from 'discord.js';
 import { DescriptionMessage } from './DescriptionMessage';
 
@@ -6,7 +6,7 @@ import { DescriptionMessage } from './DescriptionMessage';
 /**
  * Represent the embed object with Calendar details
  */
-export class EmbedMessage implements APIEmbed {
+export class EmbedMessage implements IEmbedMessage {
     /**
      * Author is used to display the link of the calendar or to advertise my GitHub XD
      */
@@ -19,6 +19,11 @@ export class EmbedMessage implements APIEmbed {
     url: string;
     description: string;
     image: APIEmbedImage;
+
+
+    attendees?: string[];
+    absentees?: string[];
+
 
     constructor(CalEvent: ICalEvent, image: string = EventType.getDefaultImage(CalEvent.type)) {
         this.title = `${CalEvent.title}`;
