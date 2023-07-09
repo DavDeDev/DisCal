@@ -35,11 +35,11 @@ export class CalEvent implements ICalEvent {
             'description': `${this.isFree}*${this.url}`,
             'start': {
                 'dateTime': this.start.toISOString(),
-                'timeZone': 'America/Toronto',
+                'timeZone': process.env.TZ || 'America/Toronto',
             },
             'end': {
                 'dateTime': this.end.toISOString(),
-                'timeZone': 'America/Toronto',
+                'timeZone': process.env.TZ || 'America/Toronto',
             },
         };
     }

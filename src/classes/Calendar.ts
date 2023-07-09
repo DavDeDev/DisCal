@@ -6,7 +6,6 @@ import { calendar_v3 } from 'googleapis';
  */
 export class Calendar extends calendar_v3.Calendar {
     private calendarId: string = process.env.EVENTS_CALENDAR_ID as string;
-    private timeZone = 'Canada/Toronto';
     // TODO: Insert event
     insertEvent(event: calendar_v3.Schema$Event) {
         return this.events.insert({
