@@ -16,7 +16,6 @@ export const interactionCreate: IEvent = {
             console.log('Properties and methods of the interaction:');
             console.table(Object.getOwnPropertyNames(interaction));
             console.assert(interaction.message.interaction?.user.id === interaction.user.id, `The user who started the interaction (${interaction.message.interaction?.user.username}) is not the same as the user who clicked the button(${interaction.user.username}).`);
-
             console.groupEnd();
             return;
         }

@@ -173,7 +173,11 @@ export const addEvent: Command = new Command(
 
         if (confirmation.customId === 'send') {
             const addEventToCalendar = await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent())
-                .then(async () => await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] }))
+                .then(
+                    async () =>
+                        await interaction.editReply(
+                            { content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] },
+                        ).then(async () => { interaction.followUp({ embeds: [embed] }); }))
                 .catch(async (error) => {
                     await interaction.editReply({ content: `❌ Error: ${error}`, embeds: [], components: [] });
                     throw new Error(error);
