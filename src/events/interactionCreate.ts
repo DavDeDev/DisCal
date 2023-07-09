@@ -9,13 +9,14 @@ import { IEvent } from '@/types';
 export const interactionCreate: IEvent = {
     name: Events.InteractionCreate,
     execute: async (interaction: ChatInputCommandInteraction | ButtonInteraction<CacheType>) => {
+        console.groupEnd();
         console.group(`🔵 Interaction started by ${interaction.user.username} (${interaction.user.id})`);
         if (interaction instanceof ButtonInteraction) {
             console.groupCollapsed(`🔲 Button '${interaction.customId}' clicked by ${interaction.user.username}`);
             console.log('Properties and methods of the interaction:');
             console.table(Object.getOwnPropertyNames(interaction));
             console.assert(interaction.message.interaction?.user.id === interaction.user.id, `The user who started the interaction (${interaction.message.interaction?.user.username}) is not the same as the user who clicked the button(${interaction.user.username}).`);
-            await interaction.update({ content: '✅ Event added to the calendar.', embeds: [], components: [] });
+
             console.groupEnd();
             return;
         }

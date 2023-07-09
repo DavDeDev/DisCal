@@ -1,7 +1,7 @@
-import { Command, EmbedMessage } from 'classes';
+import { Command, CustomClient, EmbedMessage } from 'classes';
 import { CalEvent } from 'classes/CalEvent';
 import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
@@ -157,50 +157,31 @@ export const addEvent: Command = new Command(
             { embeds: [embed], components: [row] },
         );
 
-        const userFilter = (
-            i: { user: { id: string; bot: boolean }; },
-        ) =>
-            !i.user.bot && i.user.id === interaction.user.id;
+        const collectorFilter: CollectorFilter<any> = (i: any) => {
+            i.deferUpdate();
+            return !i.user.bot && i.user.id === interaction.user.id;
+        };
 
-        try {
-            await response.awaitMessageComponent({ time: 30_000, filter: userFilter });
+        const confirmation = await response.awaitMessageComponent({ time: 30_000, filter: collectorFilter })
+            .catch(async (error) => {
+                // console.error('Error:', error);
+                await interaction.editReply(
+                    { content: '❌ Confirmation not received within 30 seconds, cancelling...', embeds: [], components: [] },
+                );
+                throw new Error('Confirmation not received within 30 seconds, cancelling...');
+            });
+
+        if (confirmation.customId === 'send') {
+            const addEventToCalendar = await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent())
+                .then(async () => await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] }))
+                .catch(async (error) => {
+                    await interaction.editReply({ content: `❌ Error: ${error}`, embeds: [], components: [] });
+                    throw new Error(error);
+                });
+
         }
-        catch (error) {
-            console.error('Error:', error);
-            await interaction.editReply(
-                { content: '❌ Confirmation not received within 30 seconds, cancelling...', embeds: [], components: [] },
-            );
+        else if (confirmation.customId === 'cancel') {
+            await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
             return;
         }
-        // const userFilter = (i: { user: { id: string; bot: boolean }; }) =>
-        //  !i.user.bot && i.user.id === interaction.user.id;
-
-        // try {
-        //     const confirmation = await response.awaitMessageComponent({ filter: userFilter, time: 60_000 });
-
-        //     if (confirmation.customId === 'send') {
-        //         await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
-        //         await interaction.followUp({ embeds: [embed] })
-        //             .then(
-        //                 async (e) => {
-        //                     e.react('✅');
-        //                     e.react('❌');
-        //                 },
-
-        //             )
-        //             .catch(async (error) => {
-        //                 console.error('Error:', error);
-        //             });
-        //         return;
-        //     }
-        //     else if (confirmation.customId === 'cancel') {
-        //         await interaction.editReply({ content: '❌ Event cancelled.', embeds: [], components: [] });
-        //         return;
-        //     }
-        // }
-        // catch (error) {
-        //     console.error('Error:', error);
-        //     await interaction.editReply({ content: '❌ Confirmation not received within 1 minute, cancelling...', embeds: [], components: [] });
-        //     return;
-        // }
     });
