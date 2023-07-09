@@ -66,7 +66,7 @@ export const addEvent: Command = new Command(
 
         await interaction.deferReply({ ephemeral: true });
 
-        console.log('Interaction options:');
+        console.log('Add-event options:');
         console.table((interaction.options as any)._hoistedOptions);
 
         const type: EventType = interaction.options.getString('type', true) as EventType;
@@ -153,9 +153,25 @@ export const addEvent: Command = new Command(
         const row = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(confirmButton, cancelButton);
 
+        const response: Message<boolean> = await interaction.editReply(
+            { embeds: [embed], components: [row] },
+        );
 
-        const response: Message<boolean> = await interaction.editReply({ embeds: [embed], components: [row] });
+        const userFilter = (
+            i: { user: { id: string; bot: boolean }; },
+        ) =>
+            !i.user.bot && i.user.id === interaction.user.id;
 
+        try {
+            await response.awaitMessageComponent({ time: 30_000, filter: userFilter });
+        }
+        catch (error) {
+            console.error('Error:', error);
+            await interaction.editReply(
+                { content: '❌ Confirmation not received within 30 seconds, cancelling...', embeds: [], components: [] },
+            );
+            return;
+        }
         // const userFilter = (i: { user: { id: string; bot: boolean }; }) =>
         //  !i.user.bot && i.user.id === interaction.user.id;
 
