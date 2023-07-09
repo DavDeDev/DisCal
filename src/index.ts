@@ -1,12 +1,11 @@
 import { Collection, Events } from 'discord.js';
 import { JWT } from 'google-auth-library';
-import { calendar_v3 } from 'googleapis';
 import dotenv from 'dotenv';
 import path from 'path';
 
 import { googleAuth } from '@/util';
 import { ready, interactionCreate } from '@/events';
-import { CustomClient, Command } from 'classes';
+import { CustomClient, Command, Calendar } from 'classes';
 import { ICommand } from 'types';
 import * as commands from 'commands';
 
@@ -24,10 +23,10 @@ async function main() {
     dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
     // Create a new instance of the Google Calendar API
-    const calendar: calendar_v3.Calendar = await googleAuth()
+    const calendar: Calendar = await googleAuth()
         .then((auth: JWT) => {
             console.log('☁️  Google Authenticated');
-            return new calendar_v3.Calendar({ auth });
+            return new Calendar(auth);
         })
         .catch((error: Error) => {
             throw new Error('❌ Google Authentication failed' + error);
