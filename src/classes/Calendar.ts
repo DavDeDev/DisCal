@@ -7,11 +7,14 @@ import { calendar_v3 } from 'googleapis';
 export class Calendar extends calendar_v3.Calendar {
     private calendarId: string = process.env.EVENTS_CALENDAR_ID as string;
     // TODO: Insert event
-    insertEvent(event: calendar_v3.Schema$Event) {
-        return this.events.insert({
+    async insertEvent(event: calendar_v3.Schema$Event) : Promise<void> {
+        await this.events.insert({
             calendarId: this.calendarId,
             requestBody: event,
-        });
+        })
+            .catch((error) => {
+                throw error;
+            });
     }
     // TODO: List events
     constructor(auth: JWT) {
