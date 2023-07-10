@@ -18,19 +18,36 @@ export class EmbedMessage implements IEmbedMessage {
     title: string;
     url: string;
     description: string;
+    attendees: Set<string> = new Set();
+    absentees: Set<string> = new Set();
+    fields: APIEmbedField[] = [
+        {
+            name: 'Attendees',
+            value: '> ' + Array(...this.attendees).join('\n> '),
+            inline: true,
+        },
+        {
+            name: 'Absentees',
+            value: '> ' + Array.from(this.absentees).join('\n> '),
+            inline: true,
+        }];
+
     image: APIEmbedImage;
-
-
-    attendees?: string[];
-    absentees?: string[];
-
 
     constructor(CalEvent: ICalEvent, image: string = EventType.getDefaultImage(CalEvent.type)) {
         this.title = `${CalEvent.title}`;
         this.url = CalEvent.url;
-        // TODO: Add Width and Height
         this.image = { url: image };
         this.description = new DescriptionMessage(CalEvent.type, CalEvent.isFree, CalEvent.location, CalEvent.start, CalEvent.end).toString();
         this.color = EventType.getColor(CalEvent.type);
+    }
+    markAttendance(person: string) {
+        this.attendees.add(person);
+        this.absentees.delete(person);
+    }
+
+    markAbsence(person: string) {
+        this.absentees.add(person);
+        this.attendees.delete(person);
     }
 }
