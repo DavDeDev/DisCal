@@ -1,7 +1,7 @@
 import { Command, CustomClient, EmbedMessage } from 'classes';
 import { CalEvent } from 'classes/CalEvent';
 import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, CommandInteractionOptionResolver, ReactionCollector } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
@@ -147,7 +147,7 @@ export const addEvent: Command = new Command(
         const cancelButton = new ButtonBuilder()
             .setCustomId('cancel')
             .setLabel('Cancel')
-            .setStyle(ButtonStyle.Danger);
+            .setStyle(ButtonStyle.Secondary);
 
 
         const row = new ActionRowBuilder<ButtonBuilder>()
@@ -163,8 +163,7 @@ export const addEvent: Command = new Command(
         };
 
         const confirmation = await response.awaitMessageComponent({ time: 30_000, filter: collectorFilter })
-            .catch(async (error) => {
-                // console.error('Error:', error);
+            .catch(async () => {
                 await interaction.editReply(
                     { content: '❌ Confirmation not received within 30 seconds, cancelling...', embeds: [], components: [] },
                 );
@@ -172,20 +171,46 @@ export const addEvent: Command = new Command(
             });
 
         if (confirmation.customId === 'send') {
-            const addEventToCalendar = await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent())
-                .then(
-                    async () =>
-                        await interaction.editReply(
-                            { content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] },
-                        ).then(async () => { interaction.followUp({ embeds: [embed] }); }))
-                .catch(async (error) => {
-                    await interaction.editReply({ content: `❌ Error: ${error}`, embeds: [], components: [] });
-                    throw new Error(error);
-                });
-
+            await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
         }
         else if (confirmation.customId === 'cancel') {
             await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
             return;
         }
-    });
+
+        const message: Message = await interaction.followUp({ embeds: [embed] });
+
+        message.react('✅');
+        message.react('❌');
+
+        const collectorFilter1: CollectorFilter<any> = (reaction, user) => {
+            return reaction.emoji.name === '✅' || reaction.emoji.name === '❌';
+        };
+
+        const collector : ReactionCollector = message.createReactionCollector({ filter: collectorFilter1, time: 10_000 });
+
+        console.log(message);
+
+        collector.on('collect', (reaction, user) => {
+            console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+        });
+        collector.on('end', collected => {
+            console.log(`Collected ${collected.size} items`);
+        });
+
+        // collector.on('collect', (reaction, user) => {
+        //     console.log('reacted');
+        //     if (reaction.emoji.name === '✅') {
+        //         console.log('reacteddddddddddddddddddddddddddddddddd');
+        //         embed.markAttendance(user.id);
+        //         interaction.editReply({ embeds: [embed] });
+        //     }
+        //     else if (reaction.emoji.name === '❌') {
+        //         embed.markAbsence(user.id);
+        //     }
+        // });
+        
+
+        console.log('Collector not working?');
+    },
+);
