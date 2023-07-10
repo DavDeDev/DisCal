@@ -23,12 +23,12 @@ export class EmbedMessage implements IEmbedMessage {
     fields: APIEmbedField[] = [
         {
             name: 'Attendees',
-            value: '> ' + Array(...this.attendees).join('\n> '),
+            value: '> -',
             inline: true,
         },
         {
             name: 'Absentees',
-            value: '> ' + Array.from(this.absentees).join('\n> '),
+            value: '> -',
             inline: true,
         }];
 
@@ -44,10 +44,17 @@ export class EmbedMessage implements IEmbedMessage {
     markAttendance(person: string) {
         this.attendees.add(person);
         this.absentees.delete(person);
+        this.updateFields();
     }
 
     markAbsence(person: string) {
         this.absentees.add(person);
         this.attendees.delete(person);
+        this.updateFields();
+    }
+
+    updateFields() {
+        this.fields[0].value = this.attendees.size !== 0 ? '> ' + Array.from(this.attendees).map((attendee: string) => `<@${attendee}>`).join('\n> ') : '> -';
+        this.fields[1].value = this.absentees.size !== 0 ? '> ' + Array.from(this.absentees).map((absentee: string) => `<@${absentee}>`).join('\n> ') : '> -';
     }
 }
