@@ -157,12 +157,12 @@ export const addEvent: Command = new Command(
             { embeds: [embed], components: [row] },
         );
 
-        const collectorFilter: CollectorFilter<any> = (i: any) => {
+        const buttonCollectorFilter: CollectorFilter<any> = (i: any) => {
             i.deferUpdate();
             return !i.user.bot && i.user.id === interaction.user.id;
         };
 
-        const confirmation = await response.awaitMessageComponent({ time: 30_000, filter: collectorFilter })
+        const confirmation = await response.awaitMessageComponent({ time: 30_000, filter: buttonCollectorFilter })
             .catch(async () => {
                 await interaction.editReply(
                     { content: '❌ Confirmation not received within 30 seconds, cancelling...', embeds: [], components: [] },
@@ -171,6 +171,7 @@ export const addEvent: Command = new Command(
             });
 
         if (confirmation.customId === 'send') {
+            await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
             await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
         }
         else if (confirmation.customId === 'cancel') {
@@ -180,37 +181,28 @@ export const addEvent: Command = new Command(
 
         const message: Message = await interaction.followUp({ embeds: [embed] });
 
-        message.react('✅');
-        message.react('❌');
+        await message.react('✅');
+        await message.react('❌');
 
-        const collectorFilter1: CollectorFilter<any> = (reaction, user) => {
+        const reactionCollectorFilter: CollectorFilter<any> = (reaction) => {
             return reaction.emoji.name === '✅' || reaction.emoji.name === '❌';
         };
 
-        const collector : ReactionCollector = message.createReactionCollector({ filter: collectorFilter1, time: 10_000 });
+        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: 20_000 });
 
-        console.log(message);
-
-        collector.on('collect', (reaction, user) => {
+        collector.on('collect', async (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+            if (reaction.emoji.name === '✅') {
+                embed.markAttendance(user.id);
+                await message.edit({ embeds: [embed] });
+            }
+            else if (reaction.emoji.name === '❌') {
+                embed.markAbsence(user.id);
+                await message.edit({ embeds: [embed] });
+            }
         });
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
         });
-
-        // collector.on('collect', (reaction, user) => {
-        //     console.log('reacted');
-        //     if (reaction.emoji.name === '✅') {
-        //         console.log('reacteddddddddddddddddddddddddddddddddd');
-        //         embed.markAttendance(user.id);
-        //         interaction.editReply({ embeds: [embed] });
-        //     }
-        //     else if (reaction.emoji.name === '❌') {
-        //         embed.markAbsence(user.id);
-        //     }
-        // });
-        
-
-        console.log('Collector not working?');
     },
 );
