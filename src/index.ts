@@ -1,4 +1,4 @@
-import { Collection, Events } from 'discord.js';
+import { Collection, Events, GatewayIntentBits, IntentsBitField } from 'discord.js';
 import { JWT } from 'google-auth-library';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -49,8 +49,10 @@ async function main() {
     // Create a collection of countdowns
     const countdowns: Collection<string, Collection<string, number>> = new Collection<string, Collection<string, number>>();
 
+    const intents : IntentsBitField = new IntentsBitField().add(GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions);
+
     // Create a new instance of the Discord Client
-    const client: CustomClient = new CustomClient(1, commandsCollection, countdowns, calendar);
+    const client: CustomClient = new CustomClient(intents, commandsCollection, countdowns, calendar);
 
     // Authenticate the Discord bot using the provided token
     await client.login(process.env.DISCORD_TOKEN)

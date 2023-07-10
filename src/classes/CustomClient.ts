@@ -1,4 +1,4 @@
-import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits, IntentsBitField } from 'discord.js';
 import { ICommand, ICustomClient } from '@/types';
 import { Command, Calendar } from 'classes';
 
@@ -28,7 +28,7 @@ export class CustomClient extends Client implements ICustomClient {
    * @param calendar The Google Calendar API.
    */
   constructor(
-    intents: GatewayIntentBits,
+    intents: IntentsBitField,
     commands: Collection<string, ICommand> = new Collection(),
     countdowns: Collection<string, Collection<string, number>> = new Collection(),
     calendar: Calendar,
