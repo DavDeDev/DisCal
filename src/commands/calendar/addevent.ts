@@ -172,7 +172,7 @@ export const addEvent: Command = new Command(
 
         if (confirmation.customId === 'send') {
             await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
-            await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
+            // await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
         }
         else if (confirmation.customId === 'cancel') {
             await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
@@ -184,8 +184,8 @@ export const addEvent: Command = new Command(
         await message.react('✅');
         await message.react('❌');
 
-        const reactionCollectorFilter: CollectorFilter<any> = (reaction) => {
-            return reaction.emoji.name === '✅' || reaction.emoji.name === '❌';
+        const reactionCollectorFilter: CollectorFilter<any> = (reaction, user) => {
+            return user.bot === false && (reaction.emoji.name === '✅' || reaction.emoji.name === '❌');
         };
 
         const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: 20_000 });
@@ -203,6 +203,12 @@ export const addEvent: Command = new Command(
         });
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
+        });
+        console.log(eventStartDate.toDate());
+
+        const thread = await message.startThread({
+            name: `${eventStartDate.format('MMM D, YYYY h:mm A')} - ${title}`,
+            reason: `Event thread for ${type} - ${title}`,
         });
     },
 );
