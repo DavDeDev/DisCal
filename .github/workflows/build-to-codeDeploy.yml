@@ -33,6 +33,9 @@ jobs:
             - name: check files
               run: ls
 
+            - name: check json
+              run: echo "${credenials.json}"
+
   
 
     # build:
