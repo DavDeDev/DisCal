@@ -30,7 +30,8 @@ jobs:
               with:
                 name: "credentials.json"
                 json: ${{ secrets.CREDENTIALS }}
-                dir: 'src/'
+            - name: check files
+              run: ls
 
   
 
