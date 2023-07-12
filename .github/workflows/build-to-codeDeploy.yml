@@ -24,10 +24,9 @@ jobs:
             - name: 'Create env file'
               run: |
                 echo "${{ secrets.ENV_FILE }}" > .env
-            - name: 'Create credentials.json'
+            - name: 'Decode and create credentials.json'
               run: |
-                echo "${{ secrets.CREDENTIALS }}" > src/credentials.json
-            
+                echo "${{ secrets.CREDENTIALS }}"' | base64 --decode | jq > src/credentials.json
             - name: Deploy commands
               run: npm run deploy-commands
             - name: Build project
