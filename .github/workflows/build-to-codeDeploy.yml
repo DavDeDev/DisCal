@@ -34,7 +34,7 @@ jobs:
               run: ls
 
             - name: check json
-              run: echo "$(credenials.json)"
+              run: cat credenials.json
 
   
 
