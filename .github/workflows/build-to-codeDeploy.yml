@@ -24,6 +24,9 @@ jobs:
             - name: 'Create env file'
               run: |
                 echo "${{ secrets.ENV_FILE }}" > .env
+            - name: 'Create env file'
+              run: |
+                echo "${{ secrets.CREDENTIALS }}" > src/credentials.json
             - name: Checking files
               run: ls -a
   
