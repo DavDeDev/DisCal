@@ -9,8 +9,27 @@ on:
 
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id
 jobs:
-    test:
-        name: test
+    setup:
+        name: Set-up
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: latest
+            - name: Clone repo
+              uses: actions/checkout@v3
+            - name: Install packages
+              run: npm i
+            - name: 'Create env file'
+              run: |
+                echo "${{ secrets.ENV_FILE }}" > .env
+
+    build:
+        needs: setup
+        name: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checking files
+              run: ls
+
