@@ -26,7 +26,7 @@ jobs:
             #     echo "${{ secrets.ENV_FILE }}" > .env
             - name: 'test credentials.json'
               run: |
-                echo "${{ vars.CREDENTIALS }}"'
+                echo "${{ vars.CREDENTIALS }}" | jq
             # - name: Deploy commands
             #   run: npm run deploy-commands
             # - name: Build project
