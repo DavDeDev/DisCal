@@ -25,14 +25,14 @@ jobs:
               run: |
                 echo "${{ secrets.ENV_FILE }}" > .env
             - name: Checking files
-              run: ls
+              run: ls -a
   
 
-    build:
-        needs: setup
-        name: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checking files
-              run: ls
+    # build:
+    #     needs: setup
+    #     name: build
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Checking files
+    #           run: ls
 
