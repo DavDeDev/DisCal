@@ -1,0 +1,14 @@
+name: build-to-codeDeploy
+#
+run-name: ${{ github.actor }} is deploying ${{ github.event.repository.name }}
+
+on:
+  push:
+    branches:
+      - main
+
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id
+jobs:
+    test:
+        name: test
+        runs-on: ubuntu-latest
