@@ -63,23 +63,22 @@ async function main() {
             throw new Error('❌ Discord Authentication failed: ' + error);
         });
 
-    let heapUsed: number;
-
     // Execute the ready event once the client is ready
     client.once(
         ready.name as Events.ClientReady,
         (...args) => {
             ready.execute(...args);
-            // check the heap used at every command called
-            heapUsed = process.memoryUsage().heapUsed;
-            console.log('🪫 Heap used: ' + heapUsed);
         },
     );
 
     // Execute the interactionCreate event whenever an interaction occurs
     client.on(
         interactionCreate.name as Events.InteractionCreate,
-        (...args) => interactionCreate.execute(...args),
+        (...args) => {
+            interactionCreate.execute(...args);
+            // check the heap used at every command called
+            console.log(`🪫 Heap Used: ${Math.round(process.memoryUsage().heapUsed / 1048576)} MB`);
+        },
     );
 }
 
