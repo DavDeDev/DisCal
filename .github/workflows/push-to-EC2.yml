@@ -9,49 +9,38 @@ on:
 
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id
 jobs:
-    setup:
-        name: Set-up
-        runs-on: ubuntu-latest
-        steps:
-            - name: Use Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: latest
-            - name: Clone repo
-              uses: actions/checkout@v3
-            - name: Install packages
-              run: npm i
-              # https://stackoverflow.com/a/63350136/18686901
-            - name: 'Create env file'
-              run: |
-                echo "${{ secrets.ENV_FILE }}" > .env
-            - name: 'Build project'
-              run: npm run build
-            - name: 'Check files'
-              run: ls -la
-            - name: ssh deploy
-              uses: easingthemes/ssh-deploy@v4.1.8
-              # `SSH_PRIVATE_KEY`, `REMOTE_HOST`, `REMOTE_USER`
-              with:
-                SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-                REMOTE_HOST: ${{ secrets.HOST_DNS }}
-                REMOTE_USER: ${{ secrets.USERNAME }}
-                ARGS: -rlgoDzv -i
-                EXCLUDE: |
-                  src/,
-                  node_modules/,
-                  public/,
-                  .github/,
-                  .git/
-                TARGET: /home/${{ secrets.USERNAME }}/DisCal/
-                SCRIPT_AFTER: |
-                            pm2 restart DisCal
-    try:
-      name: try
-      needs: setup
-      runs-on: ubuntu-latest
-      steps:
-        - name: 'Check files'
-          run: ls -la
-              
-              
+  setup:
+    name: Set-up
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🟢 Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+      - name: 📥 Clone repo
+        uses: actions/checkout@v3
+      - name: 📦 Install packages
+        run: npm i
+        # https://stackoverflow.com/a/63350136/18686901
+      - name: 🔒 Import secrets
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      - name: 🔨 Build project
+        run: npm run build
+      - name: 🚇 SSH to EC2 and deploy
+        uses: easingthemes/ssh-deploy@v4.1.8
+        # `SSH_PRIVATE_KEY`, `REMOTE_HOST`, `REMOTE_USER`
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          ARGS: -rlgoDzv -i
+          EXCLUDE: |
+            src/,
+            node_modules/,
+            public/,
+            .github/,
+            .git/
+          TARGET: /home/${{ secrets.USERNAME }}/DisCal/
+          SCRIPT_AFTER: |
+            pm2 restart DisCal
