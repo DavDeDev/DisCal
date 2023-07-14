@@ -1,0 +1,16 @@
+version: 0.2
+
+env:
+  secret-manager:
+    ENV: prod/DisCal/env:ENV_FILE
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+    commands:
+      - npm i
+      - echo "$ENV" > .env
+  build:
+    commands:
+      - npm run build
