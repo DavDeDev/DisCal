@@ -9,6 +9,7 @@ phases:
     runtime-versions:
       nodejs: latest
     commands:
+      - npm i -g typescript
       - npm i
       - echo "$ENV" > .env
   build:
