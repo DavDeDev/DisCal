@@ -36,11 +36,11 @@ jobs:
                 SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
                 REMOTE_HOST: ${{ secrets.HOST_DNS }}
                 REMOTE_USER: ${{ secrets.USERNAME }}
-                SOURCE: |
-                  build/
-                  package.json
-                  .env
-                TARGET: /home/${{ secrets.USERNAME }}/DisCal
+                # SOURCE: |
+                #   build/
+                #   package.json
+                #   .env
+                TARGET: /home/${{ secrets.USERNAME }}/DisCal/build
                 SCRIPT_AFTER: |
                             ls -la
 
