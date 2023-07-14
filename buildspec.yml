@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  secret-manager:
+  secrets-manager:
     ENV: prod/DisCal/env:ENV_FILE
 
 phases:
