@@ -40,7 +40,7 @@ jobs:
                 #   build/
                 #   package.json
                 #   .env
-                TARGET: /home/${{ secrets.USERNAME }}/DisCal/build
+                TARGET: /home/${{ secrets.USERNAME }}/DisCal/
                 SCRIPT_AFTER: |
                             ls -la
 
