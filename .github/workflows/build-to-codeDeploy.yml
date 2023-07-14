@@ -37,7 +37,7 @@ jobs:
                 REMOTE_HOST: ${{ secrets.HOST_DNS }}
                 REMOTE_USER: ${{ secrets.USERNAME }}
                 SOURCE: build/
-                TARGET: /home/REMOTE_USER/DisCal
+                TARGET: /home/${{ secrets.USERNAME }}/DisCal
                 SCRIPT_AFTER: |
                             ls -la
 
