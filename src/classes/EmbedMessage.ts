@@ -22,7 +22,7 @@ export class EmbedMessage implements IEmbedMessage {
     absentees: Set<string> = new Set();
     fields: APIEmbedField[] = [
         {
-            name: 'THIS IS A CI/CD!!!!',
+            name: 'Attendees',
             value: '> -',
             inline: true,
         },

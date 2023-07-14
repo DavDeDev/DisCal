@@ -46,6 +46,12 @@ jobs:
                 TARGET: /home/${{ secrets.USERNAME }}/DisCal/
                 SCRIPT_AFTER: |
                             pm2 restart DisCal
-
+    try:
+      name: try
+      needs: setup
+      runs-on: ubuntu-latest
+      steps:
+        - name: 'Check files'
+          run: ls -la
               
               
