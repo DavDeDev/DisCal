@@ -25,3 +25,19 @@ jobs:
             - name: 'Create env file'
               run: |
                 echo "${{ secrets.ENV_FILE }}" > .env
+            - name: 'Build project'
+              run: npm run build
+            - name: 'Check files'
+              run: ls -la
+            - name: ssh deploy
+              uses: easingthemes/ssh-deploy@v4.1.8
+              # `SSH_PRIVATE_KEY`, `REMOTE_HOST`, `REMOTE_USER`
+              with:
+                SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+                REMOTE_HOST: ${{ secrets.HOST_DNS }}
+                REMOTE_USER: ${{ secrets.USERNAME }}
+                SCRIPT_AFTER: |
+                            ls -la
+
+              
+              
