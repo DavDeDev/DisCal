@@ -1,4 +1,4 @@
-import { EventType, ICalEvent, IEmbedMessage } from 'types';
+import { EventType, ICalEvent, IEmbedMessage } from '../types';
 import { APIEmbed, APIEmbedAuthor, APIEmbedField, APIEmbedImage, channelLink, inlineCode } from 'discord.js';
 import { DescriptionMessage } from './DescriptionMessage';
 

@@ -1,6 +1,6 @@
-import { Command, CustomClient, EmbedMessage } from 'classes';
-import { ICalEvent } from 'types';
-import { jsonEventSanitize } from '@/util';
+import { Command, CustomClient, EmbedMessage } from '../../classes';
+import { ICalEvent } from '../../types';
+import { jsonEventSanitize } from '../../util';
 import { SlashCommandBuilder, ChatInputCommandInteraction, CacheType, TextBasedChannel } from 'discord.js';
 import { calendar_v3 } from 'googleapis';
 

@@ -2,8 +2,8 @@ import { REST, Routes } from 'discord.js';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import * as commands from 'commands';
-import { Command } from 'classes';
+import * as commands from './commands';
+import { Command } from './classes';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 

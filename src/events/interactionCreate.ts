@@ -1,6 +1,6 @@
-import { Command, CustomClient } from 'classes';
+import { Command, CustomClient } from '../classes';
+import { IEvent } from '../types';
 import { ButtonInteraction, CacheType, ChatInputCommandInteraction, Collection, Events } from 'discord.js';
-import { IEvent } from '@/types';
 
 
 /**

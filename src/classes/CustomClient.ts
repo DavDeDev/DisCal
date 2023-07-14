@@ -1,6 +1,6 @@
 import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits, IntentsBitField } from 'discord.js';
-import { ICommand, ICustomClient } from '@/types';
-import { Command, Calendar } from 'classes';
+import { ICommand, ICustomClient } from '../types';
+import { Command, Calendar } from '../classes';
 
 /**
  * Represents the Discord bot client adding properties to the default Client Class.

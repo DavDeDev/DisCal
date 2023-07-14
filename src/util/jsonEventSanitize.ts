@@ -1,4 +1,4 @@
-import { EventType, ICalEvent } from 'types';
+import { EventType, ICalEvent } from '../types';
 
 /**
  * This function converts the object returned by the Calendar API to an application-friendly object.

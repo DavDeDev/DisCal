@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, Client, Collection } from 'discord.js';
 import { calendar_v3 } from 'googleapis';
-import { ICommand } from 'types';
+import { ICommand } from './';
 
 /**
  * Represents the custom Discord Client with additional properties

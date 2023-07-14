@@ -1,7 +1,6 @@
-import { Command, CustomClient, EmbedMessage } from 'classes';
-import { CalEvent } from 'classes/CalEvent';
-import { EventType } from 'types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, CommandInteractionOptionResolver, ReactionCollector } from 'discord.js';
+import { Command, EmbedMessage, CalEvent } from '../../classes';
+import { EventType } from '../../types';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';

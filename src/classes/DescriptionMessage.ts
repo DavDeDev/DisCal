@@ -1,5 +1,5 @@
 import { time } from 'discord.js';
-import { EventType, IDescriptionEmbed } from 'types';
+import { EventType, IDescriptionEmbed } from '../types';
 
 
 /**

@@ -1,5 +1,5 @@
 import { calendar_v3 } from 'googleapis';
-import { EventType, ICalEvent } from 'types';
+import { EventType, ICalEvent } from '../types';
 
 /**
 * CalEvent contains all the information about an event, can be converted to a Google Calendar compatible event

@@ -1,4 +1,4 @@
-import { EventType } from 'types';
+import { EventType } from './';
 
 /**
  * Represents the Description object that will be included in the embed object

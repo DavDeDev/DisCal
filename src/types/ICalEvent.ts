@@ -1,4 +1,4 @@
-import { EventType } from 'types';
+import { EventType } from './';
 
 // Represent a Calendar Event object compatible with the application
 export interface ICalEvent {

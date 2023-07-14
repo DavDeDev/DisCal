@@ -3,11 +3,11 @@ import { JWT } from 'google-auth-library';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { googleAuth } from '@/util';
-import { ready, interactionCreate } from '@/events';
-import { CustomClient, Command, Calendar } from 'classes';
-import { ICommand } from 'types';
-import * as commands from 'commands';
+import { googleAuth } from './util';
+import { ready, interactionCreate } from './events';
+import { CustomClient, Command, Calendar } from './classes';
+import { ICommand } from './types';
+import * as commands from './commands';
 
 /**
  * The main function that initializes and runs the application.

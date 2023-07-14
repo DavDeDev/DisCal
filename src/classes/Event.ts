@@ -1,4 +1,4 @@
-import { ICustomClient, IEvent } from 'types';
+import { ICustomClient, IEvent } from '../types';
 import { Client } from 'discord.js';
 
 export class Event implements IEvent {
