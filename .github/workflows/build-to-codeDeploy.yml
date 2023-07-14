@@ -43,7 +43,7 @@ jobs:
                   .github/
                 TARGET: /home/${{ secrets.USERNAME }}/DisCal/
                 SCRIPT_AFTER: |
-                            ls -la
+                            pm2 restart DisCal
 
               
               
