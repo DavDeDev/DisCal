@@ -13,4 +13,5 @@ phases:
       - echo "$ENV" > .env
   build:
     commands:
+      - ls -a
       - npm run build
