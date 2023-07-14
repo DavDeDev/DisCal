@@ -1,7 +1,5 @@
 // JWT is more specific then GoogleAuth => for Service Accounts
 import { JWT } from 'google-auth-library';
-// Load client secrets from a local file.
-import credentials from '@/credentials.json';
 
 /**
  * This functions authenticate the user to access Google Cloud services
@@ -11,8 +9,9 @@ import credentials from '@/credentials.json';
 export async function googleAuth() {
     // Create a new JWT client using the credentials
     const client: JWT = new JWT({
-        email: credentials.client_email,
-        key: credentials.private_key,
+        email: process.env.client_email,
+        // https://stackoverflow.com/a/55459738/18686901
+        key: process.env.private_key?.replace(/\\n/g, '\n'),
         scopes: ['https://www.googleapis.com/auth/calendar'],
     });
 
