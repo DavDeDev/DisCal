@@ -49,7 +49,7 @@ async function main() {
     // Create a collection of countdowns
     const countdowns: Collection<string, Collection<string, number>> = new Collection<string, Collection<string, number>>();
 
-    const intents : IntentsBitField = new IntentsBitField().add(GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions);
+    const intents: IntentsBitField = new IntentsBitField().add(GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions);
 
     // Create a new instance of the Discord Client
     const client: CustomClient = new CustomClient(intents, commandsCollection, countdowns, calendar);
@@ -63,10 +63,17 @@ async function main() {
             throw new Error('❌ Discord Authentication failed: ' + error);
         });
 
+    let heapUsed: number;
+
     // Execute the ready event once the client is ready
     client.once(
         ready.name as Events.ClientReady,
-        (...args) => ready.execute(...args),
+        (...args) => {
+            ready.execute(...args);
+            // check the heap used at every command called
+            heapUsed = process.memoryUsage().heapUsed;
+            console.log('🪫 Heap used: ' + heapUsed);
+        },
     );
 
     // Execute the interactionCreate event whenever an interaction occurs
