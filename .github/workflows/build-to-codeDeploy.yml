@@ -36,6 +36,8 @@ jobs:
                 SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
                 REMOTE_HOST: ${{ secrets.HOST_DNS }}
                 REMOTE_USER: ${{ secrets.USERNAME }}
+                SOURCE: build/
+                TARGET: /home/REMOTE_USER/DisCal
                 SCRIPT_AFTER: |
                             ls -la
 
