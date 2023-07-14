@@ -1,4 +1,4 @@
-PROVA<!--! Replace `DisCal`, `DisCal`, `Add events to your Google Calendar directly from Discord`,`technology`-->
+<!--! Replace `DisCal`, `DisCal`, `Add events to your Google Calendar directly from Discord`,`technology`-->
 
 <a name="readme-top"></a>
 
