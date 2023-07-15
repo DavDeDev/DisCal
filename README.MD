@@ -184,7 +184,8 @@ This instruction page assumes you already have Node.js, NPM installed
 3. **Create a service account:** In the GCP Console, navigate to **IAM & Admin > Service Accounts**. Click on the **Create Service Account** button. Provide a name and description for the service account, and click **Create**. Make sure to grant the service account the necessary permissions to manage calendars by assigning the **Calendar role**.
 4. **Generate and download the credentials:** After creating the service account, click on the service account's name to view its details. Navigate to the **Keys** tab, and click on **Add Key > Create new key**. Select **JSON** as the key type and click **Create**. This will download a JSON file containing the service account's credentials. Rename the downloaded file to **`credentials.json`**.
 5. **Add the service account to the calendar:** Share the calendar you want to manage with the service account. In the calendar's settings, go to the **Share with specific people** section and enter the email address associated with the service account (found in the **`credentials.json`** file) to grant it access to the calendar.
-6. **Place credentials.json in the project:** Move the **`credentials.json`** file to the **`/src`** directory of your project. This file will be used to authenticate and authorize your application to access the Google Calendar API.
+
+_You will place credentials.json in the `.env` file_
 
 _For additional clarification or assistance, you can refer to this [comment](https://stackoverflow.com/a/26067547/18686901) or feel free to [contact me](#contact)._
 
