@@ -41,7 +41,7 @@ export const addEvent: Command = new Command(
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('endt_ime')
+            .setName('end_time')
             .setDescription('The end date/time of the event. (Format: YYYY-MM-DD HH:mm)')
             .setRequired(true),
         )
