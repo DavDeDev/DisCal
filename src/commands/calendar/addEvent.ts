@@ -1,4 +1,4 @@
-import { Command, EmbedMessage, CalEvent } from '../../classes';
+import { Command, EmbedMessage, CalEvent, CustomClient } from '../../classes';
 import { EventType } from '../../types';
 import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
@@ -171,7 +171,7 @@ export const addEvent: Command = new Command(
 
         if (confirmation.customId === 'send') {
             await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
-            // await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
+            await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
         }
         else if (confirmation.customId === 'cancel') {
             await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
@@ -187,7 +187,7 @@ export const addEvent: Command = new Command(
             return user.bot === false && (reaction.emoji.name === '✅' || reaction.emoji.name === '❌');
         };
 
-        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: 20_000 });
+        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter });
 
         collector.on('collect', async (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
