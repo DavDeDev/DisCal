@@ -28,8 +28,8 @@ export class DescriptionMessage implements IDescriptionEmbed {
     }
     toString(): string {
         return `**${this.type} - ${this.cost}**
-        _${this.location}_
-        \n**TIME**
+        ${this.location == 'Online' ? '🌐' : '📍'} _${this.location}_
+        \n🕑 **TIME**
         ${time(this.start)} - ${time(this.end)}`;
     }
 
