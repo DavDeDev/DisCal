@@ -36,12 +36,12 @@ export const addEvent: Command = new Command(
             ),
         )
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('starttime')
+            .setName('start_time')
             .setDescription('The start date/time of the event. (Format: YYYY-MM-DD HH:mm)')
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
-            .setName('endtime')
+            .setName('endt_ime')
             .setDescription('The end date/time of the event. (Format: YYYY-MM-DD HH:mm)')
             .setRequired(true),
         )
@@ -90,13 +90,13 @@ export const addEvent: Command = new Command(
 
         // TODO: Integrate OpenAI to get the event schedule from text
         const eventStartDate: Dayjs = dayjs(
-            interaction.options.getString('starttime', true),
+            interaction.options.getString('start_time', true),
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
             false,
         );
 
         const eventEndDate: Dayjs = dayjs(
-            interaction.options.getString('endtime', true),
+            interaction.options.getString('end_time', true),
             ['YYYY-MM-DD HH:mm a', 'YYYY-MM-DD HH:mm A'],
             false,
         );
