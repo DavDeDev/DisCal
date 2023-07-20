@@ -51,7 +51,7 @@ export class CustomClient extends Client implements ICustomClient {
       fields: [
         {
           name: 'Uptime',
-          value: `\`\`\` ${this.uptime} ms \`\`\``,
+          value: `\`\`\` ${((this.uptime ?? 0) / 10000).toFixed(2)} s \`\`\``,
           inline: true,
         },
       ],
