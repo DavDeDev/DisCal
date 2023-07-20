@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf build && tsc",
     "lint": "eslint ./src/ --ext .ts",
-    "start:dev": "npx nodemon",
+    "dev": "npx nodemon",
     "start": "node ./build/index.js",
     "deploy-commands": "npx ts-node ./src/deploy.ts && npm run start:dev"
   },
