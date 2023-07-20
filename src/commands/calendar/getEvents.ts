@@ -1,4 +1,4 @@
-import { Command, CustomClient, EmbedMessage } from '../../classes';
+import { Command, CustomClient, EventEmbed } from '../../classes';
 import { ICalEvent } from '../../types';
 import { jsonEventSanitize } from '../../util';
 import { SlashCommandBuilder, ChatInputCommandInteraction, CacheType, TextBasedChannel } from 'discord.js';
@@ -43,7 +43,7 @@ export const getEvents: Command = new Command(
         await interaction.editReply('Upcoming week\'s events:');
         events.map(async (event) => {
             const iEvent: ICalEvent = jsonEventSanitize(event);
-            const embed: EmbedMessage = new EmbedMessage(iEvent);
+            const embed: EventEmbed = new EventEmbed(iEvent);
             await channel.send({ embeds: [embed] });
         });
     });

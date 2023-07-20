@@ -1,4 +1,4 @@
-import { Command, EmbedMessage, CalEvent, CustomClient } from '../../classes';
+import { Command, EventEmbed, CalEvent, CustomClient } from '../../classes';
 import { EventType } from '../../types';
 import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
@@ -134,7 +134,7 @@ export const addEvent: Command = new Command(
             eventEndDate.toDate(),
         );
 
-        const embed: EmbedMessage = new EmbedMessage(event, image);
+        const embed: EventEmbed = new EventEmbed(event, image);
 
         // Confirm button
         const confirmButton = new ButtonBuilder()

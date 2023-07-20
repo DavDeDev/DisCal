@@ -6,7 +6,7 @@ import { DescriptionMessage } from './DescriptionMessage';
 /**
  * Represent the embed object with Calendar details
  */
-export class EmbedMessage implements IEmbedMessage {
+export class EventEmbed implements IEmbedMessage {
     /**
      * Author is used to display the link of the calendar or to advertise my GitHub XD
      */
