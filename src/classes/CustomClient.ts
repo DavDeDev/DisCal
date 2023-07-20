@@ -1,4 +1,4 @@
-import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits, IntentsBitField } from 'discord.js';
+import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits, IntentsBitField, APIEmbed, GuildMember } from 'discord.js';
 import { ICommand, ICustomClient } from '../types';
 import { Command, Calendar } from '../classes';
 
@@ -37,5 +37,28 @@ export class CustomClient extends Client implements ICustomClient {
     this.commands = commands;
     this.countdowns = countdowns;
     this.calendar = calendar;
+  }
+
+  getEmbedInfo(): APIEmbed {
+    return {
+      author: {
+        name: '@DavDeDev',
+        url: 'https://github.com/DavDeDev',
+      },
+      title: '🤖 DisCal 🤖',
+      url: 'https://github.com/DavDeDev/DisCal',
+      description: 'DisCal will help you and your friends managing a shared\nGoogle calendar from Discord',
+      fields: [
+        {
+          name: 'Uptime',
+          value: `\`\`\` ${this.uptime} ms \`\`\``,
+          inline: true,
+        },
+      ],
+      thumbnail: {
+        url: `${this.user?.displayAvatarURL()}`,
+      },
+      color: 0x00b0f4,
+    };
   }
 }
