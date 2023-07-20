@@ -8,7 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 
 /**
- * @
+ * Add an event to the calendar and generate the embed message.
  */
 export const addEvent: Command = new Command(
     __dirname,
