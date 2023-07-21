@@ -2,7 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'DisCal',
-      script: 'npm run start:prod',
+      script: 'npm',
+      args: 'start',
       watch: ['build'],
       env: {
         NODE_ENV: 'production',
