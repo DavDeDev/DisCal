@@ -5,3 +5,4 @@ export * from './ICustomClient';
 export * from './IDescriptionEmbed';
 export * from './IEmbedMessage';
 export * from './IEvent';
+export * from './StatusData';
