@@ -43,4 +43,4 @@ jobs:
             .git/
           TARGET: /home/${{ secrets.USERNAME }}/DisCal/
           SCRIPT_AFTER: |
-            pm2 restart DisCal
+            npm run prod:start
