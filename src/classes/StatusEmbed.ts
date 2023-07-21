@@ -17,32 +17,44 @@ export class StatusEmbed implements APIEmbed {
         this.fields.push(
             {
                 name: 'Bot uptime',
-                value: client.uptime as unknown as string,
+                value: `\`\`\`${client.uptime ?? 1 / 1000} secs\`\`\``,
+                // value: String(client.uptime),
                 inline: true,
             },
             {
-                name: 'Heap',
+                name: 'N⁰ of servers',
+                value: `\`\`\`${client.guilds.cache.size}\`\`\``,
+                // value: String(client.guilds.cache.size),
+                inline: true,
+            },
+            {
+                name: 'Heap (MB)',
                 value: this.printProgress(status.heap.used, status.heap.total),
-                inline: true,
             },
             {
-                name: 'Memory',
+                name: 'Memory (MB)',
                 value: this.printProgress(status.memory.used, status.memory.total),
-                inline: true,
             },
         );
     }
 
+    /**
+     * Create a visual representation of a percentage
+     *
+     * @param partialValue
+     * @param totalValue
+     * @returns
+     */
     printProgress(partialValue: number, totalValue: number): string {
         const percentage = (partialValue / totalValue) * 100;
-        const blocks = Math.floor(percentage / 5);
+        const blocks = Math.floor(percentage / 10);
         const fullBlock = '█';
         const darkShade = '▓';
         const lightShade = '░';
 
         // Build the progress bar
-        const progressBar = `${fullBlock.repeat(blocks)}${darkShade}${lightShade.repeat(20 - blocks)}`;
+        const progressBar = `${fullBlock.repeat(blocks)}${darkShade}${lightShade.repeat(10 - blocks)}`;
 
-        return `\`\`\`${progressBar} ${percentage.toFixed(2)}%\`\`\``;
+        return `${percentage < 85 ? '🟢' : percentage > 98 ? '🔴' : '🟡'} ${progressBar} ${partialValue}/${totalValue} (${percentage.toFixed(2)}%)`;
     }
 }
