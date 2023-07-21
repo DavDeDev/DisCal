@@ -8,7 +8,7 @@
     "lint": "eslint ./src/ --ext .ts",
     "dev": "npx nodemon",
     "start": "node ./build/index.js",
-    "deploy-commands": "npx ts-node ./src/deploy.ts && npm run start:dev"
+    "deploy-commands": "npx ts-node ./src/deploy.ts && npm run dev"
   },
   "repository": {
     "type": "git",
