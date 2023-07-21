@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'DisCal',
       script: 'npm',
-      args: 'start',
+      args: 'run start',
       watch: ['build'],
       env: {
         NODE_ENV: 'production',
