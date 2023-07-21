@@ -42,5 +42,5 @@ jobs:
             .github/,
             .git/
           TARGET: /home/${{ secrets.USERNAME }}/DisCal/
-          SCRIPT_AFTER: |
-            pm2 restart DisCal
+          # SCRIPT_AFTER: |
+          #   pm2 restart DisCal
