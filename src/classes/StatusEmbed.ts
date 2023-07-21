@@ -22,7 +22,8 @@ export class StatusEmbed implements APIEmbed {
                 inline: true,
             },
             {
-                name: 'N⁰ of servers',
+                // name: 'N⁰ of servers',
+                name: 'TESTTT',
                 value: `\`\`\`${client.guilds.cache.size}\`\`\``,
                 // value: String(client.guilds.cache.size),
                 inline: true,
