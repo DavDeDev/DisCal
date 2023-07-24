@@ -22,12 +22,12 @@ export class EventEmbed implements APIEmbed {
     absentees: Set<string> = new Set();
     fields: APIEmbedField[] = [
         {
-            name: 'Attendees',
+            name: '✅ Attendees',
             value: '> -',
             inline: true,
         },
         {
-            name: 'Absentees',
+            name: '❌ Absentees',
             value: '> -',
             inline: true,
         }];
