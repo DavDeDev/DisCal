@@ -17,7 +17,7 @@ export class StatusEmbed implements APIEmbed {
         this.fields.push(
             {
                 name: 'Bot uptime',
-                value: `\`\`\`${client.uptime ?? 1 / 1000} secs\`\`\``,
+                value: `\`\`\`${(client.uptime ?? 1) / 1000} secs\`\`\``,
                 // value: String(client.uptime),
                 inline: true,
             },
