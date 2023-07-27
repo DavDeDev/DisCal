@@ -26,7 +26,7 @@
     <a href="https://github.com/DavDeDev/DisCal"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/DavDeDev/DisCal">View Demo</a>
+    <a href="https://app.codesee.io/maps/public/94cb8890-2cba-11ee-bc2e-37ecf848c013">View Codeseen</a>
     ·
     <a href="https://github.com/DavDeDev/DisCal/issues">Report Bug</a>
     ·
