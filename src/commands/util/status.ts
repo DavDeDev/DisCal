@@ -13,5 +13,8 @@ export const status: Command = new Command(
             embeds: [new StatusEmbed(interaction.client as CustomClient, getServerStatus())],
             ephemeral: true,
         });
+
+        // const channel = interaction.channel;
+        // console.log(channel?.threads);
     },
 );

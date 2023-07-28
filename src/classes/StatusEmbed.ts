@@ -1,5 +1,5 @@
 import { APIEmbed, APIEmbedAuthor, APIEmbedField } from 'discord.js';
-import { CustomClient } from './';
+import { CustomClient } from '.';
 import { StatusData } from '../types';
 
 export class StatusEmbed implements APIEmbed {
