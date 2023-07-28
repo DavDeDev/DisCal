@@ -1,6 +1,6 @@
 import { Command, EventEmbed, CalEvent, CustomClient } from '../../classes';
 import { EventType } from '../../types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector, GuildScheduledEventCreateOptions } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
@@ -134,7 +134,7 @@ export const addEvent: Command = new Command(
             eventEndDate.toDate(),
         );
 
-        const embed: EventEmbed = new EventEmbed(event, image);
+        const embed: EventEmbed = event.toEmbedMessage(image);
 
         // Confirm button
         const confirmButton = new ButtonBuilder()
@@ -203,11 +203,13 @@ export const addEvent: Command = new Command(
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
         });
-        console.log(eventStartDate.toDate());
 
         const thread = await message.startThread({
             name: `${eventStartDate.format('MMM D, YYYY h:mm A')} - ${title}`,
             reason: `Event thread for ${type} - ${title}`,
         });
+
+        await interaction.guild?.scheduledEvents.create(event.toDiscordScheduledEvent(image));
+
     },
 );
