@@ -170,8 +170,9 @@ export const addEvent: Command = new Command(
             });
 
         if (confirmation.customId === 'send') {
-            await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
+            //TODO: Uncomment this when the calendar is ready
             await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
+            await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
         }
         else if (confirmation.customId === 'cancel') {
             await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
@@ -179,9 +180,6 @@ export const addEvent: Command = new Command(
         }
 
         const message: Message = await interaction.followUp({ embeds: [embed] });
-
-        await message.react('✅');
-        await message.react('❌');
 
         const reactionCollectorFilter: CollectorFilter<any> = (reaction, user) => {
             return user.bot === false && (reaction.emoji.name === '✅' || reaction.emoji.name === '❌');
@@ -191,12 +189,13 @@ export const addEvent: Command = new Command(
         const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: eventStartDate.diff(dayjs()) });
 
         collector.on('collect', async (reaction, user) => {
-            console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
             if (reaction.emoji.name === '✅') {
+                message.reactions.cache.get('❌')?.users.remove(user.id);
                 embed.markAttendance(user.id);
                 await message.edit({ embeds: [embed] });
             }
             else if (reaction.emoji.name === '❌') {
+                message.reactions.cache.get('✅')?.users.remove(user.id);
                 embed.markAbsence(user.id);
                 await message.edit({ embeds: [embed] });
             }
@@ -207,7 +206,9 @@ export const addEvent: Command = new Command(
             reason: `Event thread for ${type} - ${title}`,
         });
 
-        await interaction.guild?.scheduledEvents.create(event.toDiscordScheduledEvent(image));
+        await interaction.guild?.scheduledEvents.create(event.toDiscordScheduledEvent(image, thread.url));
 
+        await message.react('✅');
+        await message.react('❌');
     },
 );

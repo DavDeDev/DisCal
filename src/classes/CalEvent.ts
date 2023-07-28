@@ -1,6 +1,6 @@
 import { calendar_v3 } from 'googleapis';
 import { EventType, ICalEvent } from '../types';
-import { GuildScheduledEventCreateOptions } from 'discord.js';
+import { GuildScheduledEventCreateOptions, time } from 'discord.js';
 import { EventEmbed } from '.';
 
 /**
@@ -50,10 +50,10 @@ export class CalEvent implements ICalEvent {
      *
      * @returns a Discord  compatible event object
      */
-    toDiscordScheduledEvent(image : string): GuildScheduledEventCreateOptions {
+    toDiscordScheduledEvent(image: string, threadUrl : string): GuildScheduledEventCreateOptions {
         return {
-            name: this.title,
-            description: this.url,
+            name: `${this.type} - ${this.title}`,
+            description: `**${(this.isFree) ? 'Free' : '$$'}**\n\n_Thread_: ${threadUrl}`,
             scheduledStartTime: this.start,
             scheduledEndTime: this.end,
             // The scheduled event is only accessible to guild members
@@ -66,7 +66,7 @@ export class CalEvent implements ICalEvent {
         };
     }
 
-    toEmbedMessage(image : string): EventEmbed {
+    toEmbedMessage(image: string): EventEmbed {
         return new EventEmbed(this, image);
     }
 }
