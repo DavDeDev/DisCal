@@ -1,6 +1,6 @@
 import { Client, Collection, ChatInputCommandInteraction, GatewayIntentBits, IntentsBitField, APIEmbed, GuildMember } from 'discord.js';
 import { ICommand, ICustomClient } from '../types';
-import { Command, Calendar } from '../classes';
+import { Command, Calendar } from '.';
 
 /**
  * Represents the Discord bot client adding properties to the default Client Class.
@@ -48,13 +48,6 @@ export class CustomClient extends Client implements ICustomClient {
       title: '🤖 DisCal 🤖',
       url: 'https://github.com/DavDeDev/DisCal',
       description: 'DisCal will help you and your friends managing a shared\nGoogle calendar from Discord',
-      fields: [
-        {
-          name: 'Uptime',
-          value: `\`\`\` ${((this.uptime ?? 0) / 10000).toFixed(2)} s \`\`\``,
-          inline: true,
-        },
-      ],
       thumbnail: {
         url: `${this.user?.displayAvatarURL()}`,
       },

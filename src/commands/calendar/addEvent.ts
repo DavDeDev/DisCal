@@ -1,6 +1,6 @@
 import { Command, EventEmbed, CalEvent, CustomClient } from '../../classes';
 import { EventType } from '../../types';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandBooleanOption, ChatInputCommandInteraction, CacheType, ButtonStyle, ButtonBuilder, ActionRowBuilder, Message, CollectorFilter, ReactionCollector, GuildScheduledEventCreateOptions } from 'discord.js';
 import { OpenGraphScraperOptions, OgObject } from 'open-graph-scraper/dist/lib/types';
 
 import ogs from 'open-graph-scraper';
@@ -134,7 +134,7 @@ export const addEvent: Command = new Command(
             eventEndDate.toDate(),
         );
 
-        const embed: EventEmbed = new EventEmbed(event, image);
+        const embed: EventEmbed = event.toEmbedMessage(image);
 
         // Confirm button
         const confirmButton = new ButtonBuilder()
@@ -170,8 +170,9 @@ export const addEvent: Command = new Command(
             });
 
         if (confirmation.customId === 'send') {
-            await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
+            //TODO: Uncomment this when the calendar is ready
             await (interaction.client as CustomClient).calendar.insertEvent(event.toGoogleCalendarEvent());
+            await interaction.editReply({ content: `✅ [Event](<${url}>) added to the calendar.`, embeds: [], components: [] });
         }
         else if (confirmation.customId === 'cancel') {
             await interaction.editReply({ content: '❌ Cancelled.', embeds: [], components: [] });
@@ -180,34 +181,34 @@ export const addEvent: Command = new Command(
 
         const message: Message = await interaction.followUp({ embeds: [embed] });
 
-        await message.react('✅');
-        await message.react('❌');
-
         const reactionCollectorFilter: CollectorFilter<any> = (reaction, user) => {
             return user.bot === false && (reaction.emoji.name === '✅' || reaction.emoji.name === '❌');
         };
 
-        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter });
+        // Create a collector until the start date of the event
+        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: eventStartDate.diff(dayjs()) });
 
         collector.on('collect', async (reaction, user) => {
-            console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
             if (reaction.emoji.name === '✅') {
+                message.reactions.cache.get('❌')?.users.remove(user.id);
                 embed.markAttendance(user.id);
                 await message.edit({ embeds: [embed] });
             }
             else if (reaction.emoji.name === '❌') {
+                message.reactions.cache.get('✅')?.users.remove(user.id);
                 embed.markAbsence(user.id);
                 await message.edit({ embeds: [embed] });
             }
         });
-        collector.on('end', collected => {
-            console.log(`Collected ${collected.size} items`);
-        });
-        console.log(eventStartDate.toDate());
 
         const thread = await message.startThread({
             name: `${eventStartDate.format('MMM D, YYYY h:mm A')} - ${title}`,
             reason: `Event thread for ${type} - ${title}`,
         });
+
+        await interaction.guild?.scheduledEvents.create(event.toDiscordScheduledEvent(image, thread.url));
+
+        await message.react('✅');
+        await message.react('❌');
     },
 );
