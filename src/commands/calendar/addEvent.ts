@@ -187,7 +187,8 @@ export const addEvent: Command = new Command(
             return user.bot === false && (reaction.emoji.name === '✅' || reaction.emoji.name === '❌');
         };
 
-        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter });
+        // Create a collector until the start date of the event
+        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: eventStartDate.diff(dayjs()) });
 
         collector.on('collect', async (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
@@ -199,9 +200,6 @@ export const addEvent: Command = new Command(
                 embed.markAbsence(user.id);
                 await message.edit({ embeds: [embed] });
             }
-        });
-        collector.on('end', collected => {
-            console.log(`Collected ${collected.size} items`);
         });
 
         const thread = await message.startThread({
