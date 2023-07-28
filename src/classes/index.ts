@@ -5,3 +5,4 @@ export * from './CustomClient';
 export * from './DescriptionMessage';
 export * from './EventEmbed';
 export * from './Event';
+export * from './StatusEmbed';

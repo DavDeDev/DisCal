@@ -1,7 +1,6 @@
 import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import { Command, CustomClient } from '../../classes';
+import { Command, CustomClient, StatusEmbed } from '../../classes';
 import { getServerStatus } from '../../util';
-import { StatusEmbed } from '../../classes/StatusEmbed';
 
 export const status: Command = new Command(
     __dirname,
