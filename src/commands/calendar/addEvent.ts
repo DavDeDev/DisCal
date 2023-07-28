@@ -15,16 +15,16 @@ export const addEvent: Command = new Command(
 
     // https://discord.com/channels/222078108977594368/824411059443204127/1124741436747813004
     new SlashCommandBuilder()
-        .setName('add-event')
+        .setName('new-event')
         .setDescription('Add an event to the calendar.')
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('url')
-            .setDescription('The url of the event.')
+            .setDescription('🔗 url of the event')
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('type')
-            .setDescription('The type of the event.')
+            .setDescription('🧑‍💻 type of the event')
             .setRequired(true)
             .addChoices(
                 // TODO: Find a way to make this dynamic
@@ -37,27 +37,27 @@ export const addEvent: Command = new Command(
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('start_time')
-            .setDescription('The start date/time of the event. (Format: YYYY-MM-DD HH:mm)')
+            .setDescription('🕑 start timestamp of the event 📢 Format: YYYY-MM-DD HH:mm')
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('end_time')
-            .setDescription('The end date/time of the event. (Format: YYYY-MM-DD HH:mm)')
+            .setDescription('🕝 end timestamp of the event 📢 Format: YYYY-MM-DD HH:mm')
             .setRequired(true),
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('location')
-            .setDescription('The location of the event. (Default: Online)')
+            .setDescription('📍 location of the event (Default: Online)')
             .setRequired(false),
         )
         .addStringOption((option: SlashCommandStringOption) => option
             .setName('title')
-            .setDescription('Add a title to the event. (By default, the title is retrieved from the url.)')
+            .setDescription('name of the event (By default, the title is retrieved from the url)')
             .setRequired(false),
         )
         .addBooleanOption((option: SlashCommandBooleanOption) => option
             .setName('free')
-            .setDescription('Whether the event is free or not. (Default: Free)')
+            .setDescription('free or not? (Default: Free)')
             .setRequired(false),
         ) as SlashCommandBuilder,
 
@@ -153,7 +153,7 @@ export const addEvent: Command = new Command(
             .addComponents(confirmButton, cancelButton);
 
         const response: Message<boolean> = await interaction.editReply(
-            { embeds: [embed], components: [row] },
+            { content: 'Confirm your choice', embeds: [embed], components: [row] },
         );
 
         const buttonCollectorFilter: CollectorFilter<any> = (i: any) => {
@@ -186,7 +186,8 @@ export const addEvent: Command = new Command(
         };
 
         // Create a collector until the start date of the event
-        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: eventStartDate.diff(dayjs()) });
+        const timer = (eventStartDate.diff(dayjs()) < 2147483647) ? eventStartDate.diff(dayjs()) : undefined;
+        const collector: ReactionCollector = message.createReactionCollector({ filter: reactionCollectorFilter, time: timer });
 
         collector.on('collect', async (reaction, user) => {
             if (reaction.emoji.name === '✅') {
