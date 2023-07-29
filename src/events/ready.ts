@@ -14,6 +14,13 @@ export const ready: IEvent = {
         console.log(`✅ Logged in as ${client.user?.tag}`);
         console.groupEnd();
         console.timeEnd('⏱️ Setup completed in');
+        client.user?.setPresence({
+            status: 'dnd',
+            activities: [{
+                name: 'for /new-event',
+                type: 3,
+            }],
+        });
     },
     once: true,
 };
