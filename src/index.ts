@@ -54,7 +54,6 @@ async function main() {
 
     // Create a new instance of the Discord Client
     const client: CustomClient = new CustomClient(intents, commandsCollection, countdowns, calendar);
-
     // Authenticate the Discord bot using the provided token
     await client.login(process.env.DISCORD_TOKEN)
         .then(() => {
@@ -77,34 +76,6 @@ async function main() {
         interactionCreate.name as Events.InteractionCreate,
         (...args) => {
             interactionCreate.execute(...args);
-            // check the heap used at every command called
-            // console.log(`🪫 Heap Used: ${Math.round(process.memoryUsage().heapUsed / 1048576)} MB
-            // Total heap: ${Math.round(process.memoryUsage().heapTotal / 1048576)} MB`);
-            // console.log('TOTAL MEMORY ' + (os.totalmem() / 1024 / 1024).toFixed(2) + 'MB');
-            // console.log('FREE MEMORY ' + (os.freemem() / 1024 / 1024).toFixed(2) + 'MB');
-            // const totalmem = os.totalmem();
-            // console.log(process.memoryUsage().heapTotal);
-            // console.log(process.memoryUsage().heapUsed);
-
-            // console.log(os.totalmem());
-            // console.log(os.totalmem() + process.memoryUsage().heapTotal);
-            // console.log('🤚 V8:');
-            // console.log(heapStats);
-            // console.assert(!Object.values(heapStats).includes(totalmem) && Object.values(heapStats).includes(process.memoryUsage().heapUsed), 'The total memory of the system is not the same as the total memory used by V8.');
-            // const cpus = os.cpus();
-            // for (let i = 0, len = cpus.length; i < len; i++) {
-            //     console.log('CPU %s:', i);
-            //     let cpu = cpus[i], total = 0;
-
-            //     for (var type in cpu.times) {
-            //         total += cpu.times[type];
-            //     }
-
-            //     for (type in cpu.times) {
-            //         console.log('\t', type, Math.round(100 * cpu.times[type] / total));
-            //     }
-            // }
-            // console.log(process.cpuUsage());
         },
     );
 }
